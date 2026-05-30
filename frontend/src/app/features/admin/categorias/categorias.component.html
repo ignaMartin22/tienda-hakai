@@ -1,1 +1,63 @@
-<p>categorias works!</p>
+<div class="admin-section">
+  <div class="admin-section__header">
+    <h2>Categorías</h2>
+    <button class="btn-primary" (click)="abrirForm()">+ Nueva categoría</button>
+  </div>
+
+  @if (mostrarForm) {
+    <div class="admin-form">
+      <h3>{{ editando ? 'Editar categoría' : 'Nueva categoría' }}</h3>
+
+      <div class="admin-form__field">
+        <label>Nombre *</label>
+        <input type="text" [(ngModel)]="form.nombre" placeholder="Ej: Tops y Blusas">
+      </div>
+
+      <div class="admin-form__field">
+        <label>Descripción</label>
+        <input type="text" [(ngModel)]="form.descripcion" placeholder="Descripción opcional">
+      </div>
+
+      @if (error) {
+        <p class="admin-form__error">{{ error }}</p>
+      }
+
+      <div class="admin-form__acciones">
+        <button class="btn-primary" (click)="guardar()" [disabled]="guardando">
+          {{ guardando ? 'Guardando...' : 'Guardar' }}
+        </button>
+        <button class="btn-secondary" (click)="cerrarForm()">Cancelar</button>
+      </div>
+    </div>
+  }
+
+  @if (cargando) {
+    <p class="admin-section__cargando">Cargando...</p>
+  } @else if (categorias.length === 0) {
+    <p class="admin-section__vacio">No hay categorías todavía.</p>
+  } @else {
+    <div class="admin-tabla">
+      <div class="admin-tabla__header">
+        <span>Nombre</span>
+        <span>Slug</span>
+        <span>Estado</span>
+        <span>Acciones</span>
+      </div>
+      @for (cat of categorias; track cat._id) {
+        <div class="admin-tabla__fila">
+          <span>{{ cat.nombre }}</span>
+          <span class="admin-tabla__slug">{{ cat.slug }}</span>
+          <span>
+            <span class="admin-tabla__badge" [class.activa]="cat.activa">
+              {{ cat.activa ? 'Activa' : 'Inactiva' }}
+            </span>
+          </span>
+          <span class="admin-tabla__acciones">
+            <button (click)="abrirForm(cat)">Editar</button>
+            <button class="eliminar" (click)="eliminar(cat._id)">Eliminar</button>
+          </span>
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -1,1 +1,73 @@
-<p>producto works!</p>
+@if (cargando) {
+  <div class="cargando">Cargando...</div>
+} @else if (producto) {
+  <div class="producto container">
+
+    <div class="producto__galeria">
+      <div class="producto__imagen-principal">
+        @if (producto.imagenes.length > 0) {
+          <img [src]="producto.imagenes[imagenActiva]" [alt]="producto.nombre">
+        } @else {
+          <div class="producto__sin-imagen">📷</div>
+        }
+      </div>
+      @if (producto.imagenes.length > 1) {
+        <div class="producto__thumbnails">
+          @for (img of producto.imagenes; track $index) {
+            <img
+              [src]="img"
+              [alt]="producto.nombre"
+              [class.activa]="imagenActiva === $index"
+              (click)="imagenActiva = $index">
+          }
+        </div>
+      }
+    </div>
+
+    <div class="producto__info">
+      <p class="producto__categoria">{{ producto.categoria.nombre }}</p>
+      <h1>{{ producto.nombre }}</h1>
+      <p class="producto__precio">${{ producto.precio.toLocaleString('es-AR') }}</p>
+
+      @if (producto.descripcion) {
+        <p class="producto__descripcion">{{ producto.descripcion }}</p>
+      }
+
+      @if (producto.tallas.length > 0) {
+        <div class="producto__tallas">
+          <p>Talle</p>
+          <div class="producto__tallas-grid">
+            @for (talla of producto.tallas; track talla) {
+              <button
+                [class.seleccionada]="tallaSeleccionada === talla"
+                (click)="tallaSeleccionada = talla">
+                {{ talla }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+      <div class="producto__cantidad">
+        <p>Cantidad</p>
+        <div class="producto__cantidad-ctrl">
+          <button (click)="cantidad > 1 ? cantidad = cantidad - 1 : null">−</button>
+          <span>{{ cantidad }}</span>
+          <button (click)="cantidad = cantidad + 1">+</button>
+        </div>
+      </div>
+
+      <button
+        class="btn-primary producto__agregar"
+        (click)="agregarAlCarrito()"
+        [disabled]="producto.tallas.length > 0 && !tallaSeleccionada">
+        {{ agregado ? '✓ Agregado!' : 'Agregar al carrito' }}
+      </button>
+
+      @if (producto.tallas.length > 0 && !tallaSeleccionada) {
+        <p class="producto__aviso">Seleccioná un talle para continuar</p>
+      }
+    </div>
+
+  </div>
+}

@@ -1,1 +1,60 @@
-<p>carrito works!</p>
+<div class="carrito container">
+  <h1>Tu carrito</h1>
+
+  @if (carritoService.items().length === 0) {
+    <div class="carrito__vacio">
+      <p>Tu carrito está vacío 🛍️</p>
+      <a routerLink="/" class="btn-primary">Ver productos</a>
+    </div>
+  } @else {
+    <div class="carrito__contenido">
+      <div class="carrito__items">
+        @for (item of carritoService.items(); track item.producto._id + item.talla) {
+          <div class="carrito__item">
+            <div class="carrito__item-imagen">
+              @if (item.producto.imagenes.length > 0) {
+                <img [src]="item.producto.imagenes[0]" [alt]="item.producto.nombre">
+              } @else {
+                <div class="carrito__item-sin-imagen">📷</div>
+              }
+            </div>
+            <div class="carrito__item-info">
+              <h3>{{ item.producto.nombre }}</h3>
+              @if (item.talla) {
+                <p class="carrito__item-talla">Talle: {{ item.talla }}</p>
+              }
+              <p class="carrito__item-precio">
+                ${{ (item.producto.precio * item.cantidad).toLocaleString('es-AR') }}
+              </p>
+            </div>
+            <div class="carrito__item-acciones">
+              <div class="carrito__cantidad-ctrl">
+                <button (click)="carritoService.eliminar(item.producto._id, item.talla)">🗑️</button>
+              </div>
+              <span>x{{ item.cantidad }}</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="carrito__resumen">
+        <h2>Resumen</h2>
+        <div class="carrito__total-linea">
+          <span>Total</span>
+          <span>${{ carritoService.total().toLocaleString('es-AR') }}</span>
+        </div>
+
+        <div class="carrito__instagram">
+          <p>Para confirmar tu pedido, te vamos a redirigir a nuestro Instagram con el detalle listo 📲</p>
+          <button class="btn-primary carrito__btn-confirmar" (click)="confirmarPedido()">
+            Confirmar por Instagram
+          </button>
+        </div>
+
+        <button class="btn-secondary carrito__btn-vaciar" (click)="carritoService.vaciar()">
+          Vaciar carrito
+        </button>
+      </div>
+    </div>
+  }
+</div>

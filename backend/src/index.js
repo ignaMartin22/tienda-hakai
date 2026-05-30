@@ -13,7 +13,7 @@ app.use(express.json());
 app.use('/api/categorias', require('./routes/categorias'));
 app.use('/api/productos', require('./routes/productos'));
 app.use('/api/auth', require('./routes/auth'));
-
+app.use('/api/imagenes', require('./routes/imagenes'));
 // Ruta de prueba
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', mensaje: 'Backend funcionando 🚀' });

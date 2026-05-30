@@ -1,1 +1,37 @@
-<p>login works!</p>
+<div class="login">
+  <div class="login__card">
+    <h1>Khai.</h1>
+    <p>Panel de administración</p>
+
+    <div class="login__form">
+      <div class="login__field">
+        <label>Email</label>
+        <input
+          type="email"
+          [(ngModel)]="email"
+          placeholder="admin@hakai.com"
+          (keyup.enter)="login()">
+      </div>
+
+      <div class="login__field">
+        <label>Contraseña</label>
+        <input
+          type="password"
+          [(ngModel)]="password"
+          placeholder="••••••••"
+          (keyup.enter)="login()">
+      </div>
+
+      @if (error) {
+        <p class="login__error">{{ error }}</p>
+      }
+
+      <button
+        class="btn-primary login__btn"
+        (click)="login()"
+        [disabled]="cargando">
+        {{ cargando ? 'Ingresando...' : 'Ingresar' }}
+      </button>
+    </div>
+  </div>
+</div>

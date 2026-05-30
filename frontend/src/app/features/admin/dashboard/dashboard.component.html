@@ -1,1 +1,26 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+  <aside class="dashboard__sidebar">
+    <div class="dashboard__logo">Khai.</div>
+
+    <nav class="dashboard__nav">
+      <a routerLink="/admin/productos" routerLinkActive="activo">
+        📦 Productos
+      </a>
+      <a routerLink="/admin/categorias" routerLinkActive="activo">
+        🏷️ Categorías
+      </a>
+      <a routerLink="/admin/pedidos" routerLinkActive="activo">
+        📋 Pedidos
+      </a>
+    </nav>
+
+    <div class="dashboard__footer">
+      <a routerLink="/" target="_blank">Ver tienda →</a>
+      <button (click)="logout()">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <main class="dashboard__content">
+    <router-outlet />
+  </main>
+</div>

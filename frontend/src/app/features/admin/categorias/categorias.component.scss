@@ -1,0 +1,143 @@
+.admin-section {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+
+    h2 {
+      font-size: 32px;
+      font-weight: 300;
+    }
+  }
+
+  &__cargando, &__vacio {
+    text-align: center;
+    padding: 48px;
+    color: #aaa;
+  }
+}
+
+.admin-form {
+  background: #fff;
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+
+  h3 {
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 24px;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #888;
+    }
+
+    input, textarea, select {
+      border: 1px solid #e0e0e0;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-family: 'Montserrat', sans-serif;
+      outline: none;
+      transition: border-color 0.3s;
+
+      &:focus { border-color: #2c2c2c; }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+  }
+
+  &__error {
+    font-size: 13px;
+    color: #c0392b;
+    margin-bottom: 16px;
+  }
+
+  &__acciones {
+    display: flex;
+    gap: 12px;
+  }
+}
+
+.admin-tabla {
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+
+  &__header {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr 1fr;
+    padding: 16px 24px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #aaa;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  &__fila {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr 1fr;
+    padding: 16px 24px;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+    transition: background 0.2s;
+
+    &:hover { background: #faf7f5; }
+    &:last-child { border-bottom: none; }
+  }
+
+  &__slug {
+    color: #aaa;
+    font-size: 12px;
+  }
+
+  &__badge {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 11px;
+    background: #f0f0f0;
+    color: #aaa;
+
+    &.activa {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+  }
+
+  &__acciones {
+    display: flex;
+    gap: 8px;
+
+    button {
+      background: none;
+      border: 1px solid #ddd;
+      padding: 6px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover { border-color: #2c2c2c; }
+
+      &.eliminar {
+        &:hover {
+          border-color: #c0392b;
+          color: #c0392b;
+        }
+      }
+    }
+  }
+}
