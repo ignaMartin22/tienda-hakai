@@ -1,0 +1,73 @@
+<section class="hero">
+  <div class="hero__content">
+    <h1>Khai.</h1>
+    <p>Moda femenina con identidad propia 🤎</p>
+    <a routerLink="/productos" class="btn-primary">Ver colección</a>
+  </div>
+</section>
+
+@if (destacados.length > 0) {
+  <section class="destacados container">
+    <h2>Prenditas Destacadas 🏹🎀</h2>
+    <div class="productos-grid">
+      @for (producto of destacados; track producto._id) {
+        <a [routerLink]="['/productos', producto._id]" class="producto-card">
+          <div class="producto-card__imagen">
+            @if (producto.imagenes.length > 0) {
+              <img [src]="producto.imagenes[0]" [alt]="producto.nombre">
+            } @else {
+              <div class="producto-card__sin-imagen">📷</div>
+            }
+          </div>
+          <div class="producto-card__info">
+            <h3>{{ producto.nombre }}</h3>
+            <p class="producto-card__precio">${{ producto.precio.toLocaleString('es-AR') }}</p>
+          </div>
+        </a>
+      }
+    </div>
+  </section>
+}
+
+<section class="catalogo container">
+  <h2>Todos los productos</h2>
+
+  <div class="categorias-filtro">
+    <button
+      [class.activo]="categoriaActiva === ''"
+      (click)="filtrarPorCategoria('')">
+      Todos
+    </button>
+    @for (cat of categorias; track cat._id) {
+      <button
+        [class.activo]="categoriaActiva === cat._id"
+        (click)="filtrarPorCategoria(cat._id)">
+        {{ cat.nombre }}
+      </button>
+    }
+  </div>
+
+  @if (cargando) {
+    <div class="cargando">Cargando productos...</div>
+  } @else if (productos.length === 0) {
+    <div class="vacio">No hay productos disponibles todavía 🌸</div>
+  } @else {
+    <div class="productos-grid">
+      @for (producto of productos; track producto._id) {
+        <a [routerLink]="['/productos', producto._id]" class="producto-card">
+          <div class="producto-card__imagen">
+            @if (producto.imagenes.length > 0) {
+              <img [src]="producto.imagenes[0]" [alt]="producto.nombre">
+            } @else {
+              <div class="producto-card__sin-imagen">📷</div>
+            }
+          </div>
+          <div class="producto-card__info">
+            <h3>{{ producto.nombre }}</h3>
+            <p class="producto-card__precio">${{ producto.precio.toLocaleString('es-AR') }}</p>
+          </div>
+        </a>
+      }
+    </div>
+  }
+</section>

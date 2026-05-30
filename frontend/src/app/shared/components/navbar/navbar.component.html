@@ -1,0 +1,25 @@
+<header class="navbar">
+  <div class="navbar__top">
+    <span>Seguinos en &#64;lovekhai___ para todas las novedades</span>
+  </div>
+
+  <nav class="navbar__main">
+    <button class="navbar__hamburger" (click)="menuAbierto = !menuAbierto">
+      <span></span><span></span><span></span>
+    </button>
+
+    <a routerLink="/" class="navbar__logo">Khai.</a>
+
+    <ul class="navbar__links" [class.open]="menuAbierto">
+      <li><a routerLink="/" (click)="menuAbierto = false">Inicio</a></li>
+      <li><a routerLink="/productos" (click)="menuAbierto = false">Productos</a></li>
+    </ul>
+
+    <a routerLink="/carrito" class="navbar__carrito">
+      🛍️
+      @if (carritoService.cantidadTotal() > 0) {
+        <span class="navbar__badge">{{ carritoService.cantidadTotal() }}</span>
+      }
+    </a>
+  </nav>
+</header>
