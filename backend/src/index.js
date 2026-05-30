@@ -9,6 +9,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Rutas
+app.use('/api/categorias', require('./routes/categorias'));
+app.use('/api/productos', require('./routes/productos'));
+app.use('/api/auth', require('./routes/auth'));
+
 // Ruta de prueba
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', mensaje: 'Backend funcionando 🚀' });
@@ -23,5 +28,5 @@ mongoose.connect(process.env.MONGODB_URI)
     });
   })
   .catch((err) => {
-    console.error('Error conectando a MongoDB:', err.message);
+    console.error('❌ Error conectando a MongoDB:', err.message);
   });
