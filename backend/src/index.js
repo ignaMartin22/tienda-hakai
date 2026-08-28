@@ -14,21 +14,23 @@ app.use('/api/categorias', require('./routes/categorias'));
 app.use('/api/productos', require('./routes/productos'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/imagenes', require('./routes/imagenes'));
+app.use('/api/pedidos', require('./routes/pedidos'));
+
 // Ruta de prueba
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', mensaje: 'Backend funcionando 🚀' });
 });
 
-app.use('/api/admin/pedidos', require('./routes/pedidos'));
-
 // Conexión a MongoDB
 mongoose.connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log('✅ Conectado a MongoDB Atlas');
-    app.listen(process.env.PORT, () => {
-      console.log(`🚀 Servidor corriendo en puerto ${process.env.PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.error('❌ Error conectando a MongoDB:', err.message);
+  .then(() => console.log('✅ Conectado a MongoDB Atlas'))
+  .catch((err) => console.error('❌ Error conectando a MongoDB:', err.message));
+
+// Exportar para Vercel y también escuchar localmente
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(process.env.PORT || 3000, () => {
+    console.log(`🚀 Servidor corriendo en puerto ${process.env.PORT || 3000}`);
   });
+}
+
+module.exports = app;
