@@ -66,30 +66,47 @@
     gap: 16px;
     margin-bottom: 16px;
   }
+&__tallas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
 
-  &__tallas {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+&__talla-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
 
-    button {
-      width: 48px;
-      height: 48px;
-      border: 1px solid #ddd;
-      background: transparent;
-      font-size: 13px;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-family: 'Montserrat', sans-serif;
-
-      &:hover, &.seleccionada {
-        background: #2c2c2c;
-        color: #fff;
-        border-color: #2c2c2c;
-      }
-    }
+  button {
+    width: 52px;
+    height: 48px;
+    border: 1px solid #ddd;
+    background: transparent;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Montserrat', sans-serif;
   }
 
+  &.seleccionada button {
+    background: #2c2c2c;
+    color: #fff;
+    border-color: #2c2c2c;
+  }
+
+  input {
+    width: 52px;
+    border: 1px solid #e0e0e0;
+    padding: 4px 6px;
+    font-size: 12px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    outline: none;
+
+    &:focus { border-color: #2c2c2c; }
+  }
+}
   &__imagenes {
     display: flex;
     flex-wrap: wrap;

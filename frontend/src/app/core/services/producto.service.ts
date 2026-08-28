@@ -3,15 +3,19 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
+export interface Talla {
+  talla: string;
+  stock: number;
+}
+
 export interface Producto {
   _id: string;
   nombre: string;
   descripcion: string;
   precio: number;
   categoria: { _id: string; nombre: string; slug: string };
-  tallas: string[];
+  tallas: Talla[];
   imagenes: string[];
-  stock: number;
   activo: boolean;
   destacado: boolean;
 }

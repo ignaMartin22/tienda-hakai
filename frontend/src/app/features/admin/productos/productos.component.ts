@@ -25,19 +25,18 @@ export class ProductosComponent implements OnInit {
   subiendoImagen = false;
   error = '';
 
-  tallas = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '36', '38', '40', '42', 'único'];
+tallas = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '36', '38', '40', '42', 'único'];
 
-  form: any = {
-    nombre: '',
-    descripcion: '',
-    precio: null,
-    categoria: '',
-    tallas: [],
-    imagenes: [],
-    stock: 0,
-    activo: true,
-    destacado: false
-  };
+form: any = {
+  nombre: '',
+  descripcion: '',
+  precio: null,
+  categoria: '',
+  tallas: [],
+  imagenes: [],
+  activo: true,
+  destacado: false
+};
 
   ngOnInit(): void {
     this.cargarProductos();
@@ -64,9 +63,8 @@ export class ProductosComponent implements OnInit {
       descripcion: producto.descripcion,
       precio: producto.precio,
       categoria: producto.categoria._id,
-      tallas: [...producto.tallas],
+      tallas: producto ? producto.tallas.map((t: any) => ({ talla: t.talla, stock: t.stock })) : [],
       imagenes: [...producto.imagenes],
-      stock: producto.stock,
       activo: producto.activo,
       destacado: producto.destacado
     } : {
@@ -84,15 +82,30 @@ export class ProductosComponent implements OnInit {
     this.error = '';
   }
 
-  toggleTalla(talla: string): void {
-    const idx = this.form.tallas.indexOf(talla);
-    if (idx >= 0) this.form.tallas.splice(idx, 1);
-    else this.form.tallas.push(talla);
+ toggleTalla(talla: string): void {
+  const idx = this.form.tallas.findIndex((t: any) => t.talla === talla);
+  if (idx >= 0) {
+    this.form.tallas.splice(idx, 1);
+  } else {
+    this.form.tallas.push({ talla, stock: 0 });
   }
+}
 
-  tieneTalla(talla: string): boolean {
-    return this.form.tallas.includes(talla);
-  }
+tieneTalla(talla: string): boolean {
+  return this.form.tallas.some((t: any) => t.talla === talla);
+}
+
+getStockTalla(talla: string): number {
+  return this.form.tallas.find((t: any) => t.talla === talla)?.stock || 0;
+}
+
+setStockTalla(talla: string, stock: number): void {
+  const item = this.form.tallas.find((t: any) => t.talla === talla);
+  if (item) item.stock = stock;
+}
+getStockTotal(producto: any): number {
+  return producto.tallas.reduce((acc: number, t: any) => acc + t.stock, 0);
+}
 
   onImagenSeleccionada(event: any): void {
     const file: File = event.target.files[0];

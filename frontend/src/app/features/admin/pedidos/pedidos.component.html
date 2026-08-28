@@ -1,1 +1,80 @@
-<p>pedidos works!</p>
+<div class="admin-section">
+    <div class="admin-section__header">
+        <h2>Pedidos</h2>
+        <span class="pedidos__total">{{ pedidos.length }} pedidos</span>
+    </div>
+
+    @if (cargando) {
+    <p class="admin-section__cargando">Cargando...</p>
+    } @else if (pedidos.length === 0) {
+    <div class="pedidos__vacio">
+        <p>Próximamente...</p>
+        <span>...</span>
+    </div>
+    } @else {
+    <div class="pedidos__lista">
+        @for (pedido of pedidos; track pedido._id) {
+        <div class="pedido" [class.abierto]="pedidoAbierto === pedido._id">
+            <div class="pedido__header" (click)="togglePedido(pedido._id)">
+                <div class="pedido__info">
+                    <span class="pedido__id">#{{ pedido._id.slice(-6).toUpperCase() }}</span>
+                    <span class="pedido__fecha">{{ formatFecha(pedido.createdAt) }}</span>
+                    @if (pedido.instagramHandle) {
+                    <span class="pedido__instagram">&#64;{{ pedido.instagramHandle }}</span>
+                    }
+                </div>
+                <div class="pedido__meta">
+                    <span class="pedido__total">${{ pedido.total.toLocaleString('es-AR') }}</span>
+                    <span class="pedido__badge" [class]="getEstadoClass(pedido.estado)">
+                        {{ pedido.estado }}
+                    </span>
+                    <span class="pedido__toggle">{{ pedidoAbierto === pedido._id ? '▲' : '▼' }}</span>
+                </div>
+            </div>
+
+            @if (pedidoAbierto === pedido._id) {
+            <div class="pedido__detalle">
+                <div class="pedido__productos">
+                    @for (item of pedido.productos; track $index) {
+                    <div class="pedido__producto">
+                        @if (item.productoId && item.productoId.imagenes && item.productoId.imagenes.length > 0) {
+                        <img [src]="item.productoId.imagenes[0]" [alt]="item.nombre">
+                        } @else {
+                        <div class="pedido__producto-sin-img">📷</div>
+                        }
+                        <div class="pedido__producto-info">
+                            <span>{{ item.nombre }}</span>
+                            @if (item.talla) {
+                            <span class="pedido__producto-talla">Talle: {{ item.talla }}</span>
+                            }
+                            <span class="pedido__producto-cantidad">x{{ item.cantidad }}</span>
+                        </div>
+                        <span class="pedido__producto-precio">
+                            ${{ (item.precio * item.cantidad).toLocaleString('es-AR') }}
+                        </span>
+                    </div>
+                    }
+                </div>
+
+                @if (pedido.notas) {
+                <div class="pedido__notas">
+                    <strong>Notas:</strong> {{ pedido.notas }}
+                </div>
+                }
+
+                <div class="pedido__acciones">
+                    <span>Cambiar estado:</span>
+                    @for (estado of estados; track estado) {
+                    <button [class.activo]="pedido.estado === estado" [class]="estado"
+                        (click)="cambiarEstado(pedido._id, estado)">
+                        {{ estado }}
+                    </button>
+                    }
+                </div>
+            </div>
+            }
+        </div>
+        }
+    </div>
+    }
+</div>

@@ -19,6 +19,8 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', mensaje: 'Backend funcionando 🚀' });
 });
 
+app.use('/api/admin/pedidos', require('./routes/pedidos'));
+
 // Conexión a MongoDB
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {

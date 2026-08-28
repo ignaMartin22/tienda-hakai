@@ -21,15 +21,17 @@ const productoSchema = new mongoose.Schema({
     required: true
   },
   tallas: [{
-    type: String,
-    enum: ['XS', 'S', 'M', 'L', 'XL', 'XXL', '36', '38', '40', '42', 'único']
+    talla: {
+      type: String,
+      enum: ['XS', 'S', 'M', 'L', 'XL', 'XXL', '36', '38', '40', '42', 'único']
+    },
+    stock: {
+      type: Number,
+      default: 0,
+      min: 0
+    }
   }],
   imagenes: [String],
-  stock: {
-    type: Number,
-    default: 0,
-    min: 0
-  },
   activo: {
     type: Boolean,
     default: true

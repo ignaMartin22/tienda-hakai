@@ -12,4 +12,14 @@ import { CarritoService } from '../../../core/services/carrito.service';
 export class NavbarComponent {
   carritoService = inject(CarritoService);
   menuAbierto = false;
+  
+  irAProductos(): void {
+  this.menuAbierto = false;
+  const el = document.querySelector('.catalogo');
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' });
+  } else {
+    window.location.href = '/';
+  }
+}
 }

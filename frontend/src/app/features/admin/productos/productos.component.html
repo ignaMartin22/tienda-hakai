@@ -5,135 +5,135 @@
   </div>
 
   @if (mostrarForm) {
-    <div class="admin-form">
-      <h3>{{ editando ? 'Editar producto' : 'Nuevo producto' }}</h3>
+  <div class="admin-form">
+    <h3>{{ editando ? 'Editar producto' : 'Nuevo producto' }}</h3>
 
-      <div class="admin-form__grid">
-        <div class="admin-form__field">
-          <label>Nombre *</label>
-          <input type="text" [(ngModel)]="form.nombre" placeholder="Ej: Muscu Bali">
-        </div>
-
-        <div class="admin-form__field">
-          <label>Precio *</label>
-          <input type="number" [(ngModel)]="form.precio" placeholder="26700">
-        </div>
-
-        <div class="admin-form__field">
-          <label>Categoría *</label>
-          <select [(ngModel)]="form.categoria">
-            <option value="">Seleccioná una categoría</option>
-            @for (cat of categorias; track cat._id) {
-              <option [value]="cat._id">{{ cat.nombre }}</option>
-            }
-          </select>
-        </div>
-
-        <div class="admin-form__field">
-          <label>Stock</label>
-          <input type="number" [(ngModel)]="form.stock" placeholder="0">
-        </div>
+    <div class="admin-form__grid">
+      <div class="admin-form__field">
+        <label>Nombre *</label>
+        <input type="text" [(ngModel)]="form.nombre" placeholder="Ej: Muscu Bali">
       </div>
 
       <div class="admin-form__field">
-        <label>Descripción</label>
-        <textarea [(ngModel)]="form.descripcion" placeholder="Descripción del producto..."></textarea>
+        <label>Precio *</label>
+        <input type="number" [(ngModel)]="form.precio" placeholder="26700">
       </div>
 
       <div class="admin-form__field">
-        <label>Talles</label>
-        <div class="admin-form__tallas">
-          @for (talla of tallas; track talla) {
-            <button
-              type="button"
-              [class.seleccionada]="tieneTalla(talla)"
-              (click)="toggleTalla(talla)">
-              {{ talla }}
-            </button>
+        <label>Categoría *</label>
+        <select [(ngModel)]="form.categoria">
+          <option value="">Seleccioná una categoría</option>
+          @for (cat of categorias; track cat._id) {
+          <option [value]="cat._id">{{ cat.nombre }}</option>
+          }
+        </select>
+      </div>
+
+
+    </div>
+
+    <div class="admin-form__field">
+      <label>Descripción</label>
+      <textarea [(ngModel)]="form.descripcion" placeholder="Descripción del producto..."></textarea>
+    </div>
+
+    <div class="admin-form__field">
+      <label>Talles y stock</label>
+      <div class="admin-form__tallas">
+        @for (talla of tallas; track talla) {
+        <div class="admin-form__talla-item" [class.seleccionada]="tieneTalla(talla)">
+          <button type="button" (click)="toggleTalla(talla)">
+            {{ talla }}
+          </button>
+          @if (tieneTalla(talla)) {
+          <input type="number" min="0" [value]="getStockTalla(talla)"
+            (change)="setStockTalla(talla, +$any($event.target).value)" placeholder="Stock">
           }
         </div>
-      </div>
-
-      <div class="admin-form__field">
-        <label>Imágenes</label>
-        <div class="admin-form__imagenes">
-          @for (img of form.imagenes; track $index) {
-            <div class="admin-form__imagen">
-              <img [src]="img" alt="Imagen producto">
-              <button type="button" (click)="eliminarImagen($index)">✕</button>
-            </div>
-          }
-          <label class="admin-form__subir" [class.cargando]="subiendoImagen">
-            @if (subiendoImagen) {
-              <span>Subiendo...</span>
-            } @else {
-              <span>+ Agregar imagen</span>
-              <input type="file" accept="image/*" (change)="onImagenSeleccionada($event)" hidden>
-            }
-          </label>
-        </div>
-      </div>
-
-      <div class="admin-form__checks">
-        <label class="admin-form__check">
-          <input type="checkbox" [(ngModel)]="form.activo">
-          Activo
-        </label>
-        <label class="admin-form__check">
-          <input type="checkbox" [(ngModel)]="form.destacado">
-          Destacado en inicio
-        </label>
-      </div>
-
-      @if (error) {
-        <p class="admin-form__error">{{ error }}</p>
-      }
-
-      <div class="admin-form__acciones">
-        <button class="btn-primary" (click)="guardar()" [disabled]="guardando">
-          {{ guardando ? 'Guardando...' : 'Guardar' }}
-        </button>
-        <button class="btn-secondary" (click)="cerrarForm()">Cancelar</button>
+        }
       </div>
     </div>
+
+    <div class="admin-form__field">
+      <label>Imágenes</label>
+      <div class="admin-form__imagenes">
+        @for (img of form.imagenes; track $index) {
+        <div class="admin-form__imagen">
+          <img [src]="img" alt="Imagen producto">
+          <button type="button" (click)="eliminarImagen($index)">✕</button>
+        </div>
+        }
+        <label class="admin-form__subir" [class.cargando]="subiendoImagen">
+          @if (subiendoImagen) {
+          <span>Subiendo...</span>
+          } @else {
+          <span>+ Agregar imagen</span>
+          <input type="file" accept="image/*" (change)="onImagenSeleccionada($event)" hidden>
+          }
+        </label>
+      </div>
+    </div>
+
+    <div class="admin-form__checks">
+      <label class="admin-form__check">
+        <input type="checkbox" [(ngModel)]="form.activo">
+        Activo
+      </label>
+      <label class="admin-form__check">
+        <input type="checkbox" [(ngModel)]="form.destacado">
+        Destacado en inicio
+      </label>
+    </div>
+
+    @if (error) {
+    <p class="admin-form__error">{{ error }}</p>
+    }
+
+    <div class="admin-form__acciones">
+      <button class="btn-primary" (click)="guardar()" [disabled]="guardando">
+        {{ guardando ? 'Guardando...' : 'Guardar' }}
+      </button>
+      <button class="btn-secondary" (click)="cerrarForm()">Cancelar</button>
+    </div>
+  </div>
   }
 
   @if (cargando) {
-    <p class="admin-section__cargando">Cargando...</p>
+  <p class="admin-section__cargando">Cargando...</p>
   } @else if (productos.length === 0) {
-    <p class="admin-section__vacio">No hay productos todavía.</p>
+  <p class="admin-section__vacio">No hay productos todavía.</p>
   } @else {
-    <div class="admin-tabla">
-      <div class="admin-tabla__header">
-        <span>Producto</span>
-        <span>Categoría</span>
-        <span>Precio</span>
-        <span>Stock</span>
-        <span>Estado</span>
-        <span>Acciones</span>
-      </div>
-      @for (producto of productos; track producto._id) {
-        <div class="admin-tabla__fila">
-          <span class="admin-tabla__nombre">
-            @if (producto.imagenes.length > 0) {
-              <img [src]="producto.imagenes[0]" [alt]="producto.nombre">
-            }
-            {{ producto.nombre }}
-          </span>
-          <span>{{ producto.categoria.nombre }}</span>
-          <span>${{ producto.precio.toLocaleString('es-AR') }}</span>
-          <span>{{ producto.stock }}</span>
-          <span>
-            <span class="admin-tabla__badge" [class.activa]="producto.activo">
-              {{ producto.activo ? 'Activo' : 'Inactivo' }}
-            </span>
-          </span>
-          <span class="admin-tabla__acciones">
-            <button (click)="abrirForm(producto)">Editar</button>
-            <button class="eliminar" (click)="eliminar(producto._id)">Eliminar</button>
-          </span>
-        </div>
-      }
+  <div class="admin-tabla">
+    <div class="admin-tabla__header">
+      <span>Producto</span>
+      <span>Categoría</span>
+      <span>Precio</span>
+      <span>Stock</span>
+      <span>Estado</span>
+      <span>Acciones</span>
     </div>
+    @for (producto of productos; track producto._id) {
+    <div class="admin-tabla__fila">
+      <span class="admin-tabla__nombre">
+        @if (producto.imagenes.length > 0) {
+        <img [src]="producto.imagenes[0]" [alt]="producto.nombre">
+        }
+        {{ producto.nombre }}
+      </span>
+      <span>{{ producto.categoria.nombre }}</span>
+      <span>${{ producto.precio.toLocaleString('es-AR') }}</span>
+      <span>{{ getStockTotal(producto) }}</span>
+      <span>
+        <span class="admin-tabla__badge" [class.activa]="producto.activo">
+          {{ producto.activo ? 'Activo' : 'Inactivo' }}
+        </span>
+      </span>
+      <span class="admin-tabla__acciones">
+        <button (click)="abrirForm(producto)">Editar</button>
+        <button class="eliminar" (click)="eliminar(producto._id)">Eliminar</button>
+      </span>
+    </div>
+    }
+  </div>
   }
-</div>  
+</div>

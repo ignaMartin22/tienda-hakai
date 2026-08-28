@@ -19,15 +19,19 @@ export class ProductoComponent implements OnInit {
   producto: Producto | null = null;
   cargando = true;
   imagenActiva = 0;
-  tallaSeleccionada = '';
+tallaSeleccionada: { talla: string; stock: number } | null = null;
   cantidad = 1;
   agregado = false;
 
+  get tallasDisponibles() {
+  return this.producto?.tallas.filter(t => t.stock > 0) || [];
+}
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) this.cargarProducto(id);
   }
 
+  
   cargarProducto(id: string): void {
     this.productoService.getProducto(id).subscribe({
       next: (p) => {
@@ -39,12 +43,17 @@ export class ProductoComponent implements OnInit {
     });
   }
 
-  agregarAlCarrito(): void {
-    if (!this.producto) return;
-    if (this.producto.tallas.length > 0 && !this.tallaSeleccionada) return;
+agregarAlCarrito(): void {
+  if (!this.producto) return;
+  if (this.producto.tallas.length > 0 && !this.tallaSeleccionada) return;
+  if (this.cantidad > (this.tallaSeleccionada?.stock || 0)) return;
 
-    this.carritoService.agregar(this.producto, this.tallaSeleccionada, this.cantidad);
-    this.agregado = true;
-    setTimeout(() => this.agregado = false, 2000);
-  }
+  this.carritoService.agregar(
+    this.producto,
+    this.tallaSeleccionada?.talla || '',
+    this.cantidad
+  );
+  this.agregado = true;
+  setTimeout(() => this.agregado = false, 2000);
+}
 }

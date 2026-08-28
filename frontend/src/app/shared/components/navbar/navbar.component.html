@@ -12,8 +12,7 @@
 
     <ul class="navbar__links" [class.open]="menuAbierto">
       <li><a routerLink="/" (click)="menuAbierto = false">Inicio</a></li>
-      <li><a routerLink="/productos" (click)="menuAbierto = false">Productos</a></li>
-    </ul>
+<li><a (click)="irAProductos()" style="cursor:pointer">Productos</a></li>    </ul>
 
     <a routerLink="/carrito" class="navbar__carrito">
       🛍️
