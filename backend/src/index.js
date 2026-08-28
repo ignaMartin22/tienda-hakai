@@ -20,6 +20,13 @@ app.use('/api/pedidos', require('./routes/pedidos'));
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', mensaje: 'Backend funcionando 🚀' });
 });
+app.get('/api/debug', (req, res) => {
+res.json({
+  mongoUri: process.env.MONGODB_URI ? 'definida' : 'no definida',
+  nodeEnv: process.env.NODE_ENV,
+  mongoState: mongoose.connection.readyState
+});
+});
 
 // Conexión a MongoDB
 mongoose.connect(process.env.MONGODB_URI)

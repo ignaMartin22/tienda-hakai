@@ -1,12 +1,36 @@
 .hero {
   height: 80vh;
-  background: #f5ede8;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  overflow: hidden;
+
+  &__slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+    }
+
+    &.activo {
+      opacity: 1;
+    }
+  }
 
   &__content {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,17 +40,78 @@
       font-size: 96px;
       font-weight: 300;
       letter-spacing: 8px;
-      color: #2c2c2c;
+      color: #fff;
     }
 
     p {
       font-size: 16px;
-      color: #8b6f5e;
+      color: #f0f0f0;
       letter-spacing: 2px;
+    }
+  }
+
+  &__btn {
+    margin-top: 8px;
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+
+    &:hover {
+      background: #fff;
+      color: #2c2c2c;
+    }
+  }
+
+  &__dots {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 1;
+  }
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.3s;
+    padding: 0;
+
+    &.activo {
+      background: #fff;
     }
   }
 }
 
+@media (max-width: 768px) {
+  .hero {
+    height: 60vh;
+    
+    &__slide {
+      background-position: center center;
+    }
+
+    &__content h1 {
+      font-size: 56px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    background-position: center center;
+    height: 60vh;
+
+    &__content h1 {
+      font-size: 56px;
+    }
+  }
+}
 .destacados, .catalogo {
   padding: 64px 32px;
 
@@ -121,4 +206,154 @@
   padding: 80px;
   color: #aaa;
   font-size: 16px;
+}
+.ofertas {
+  padding: 64px 0;
+  background: #2c2c2c;
+  color: #fff;
+
+  &__header {
+    text-align: center;
+    margin-bottom: 40px;
+
+    h2 {
+      font-size: 36px;
+      font-weight: 300;
+      color: #fff;
+    }
+  }
+
+  &__slider {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 0 32px;
+  }
+
+  &__track {
+    display: flex;
+    gap: 24px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  &__card {
+    min-width: 200px;
+    flex: 1;
+    text-decoration: none;
+    color: #fff;
+    opacity: 0.4;
+    transform: scale(0.95);
+    transition: all 0.4s;
+    pointer-events: none;
+
+    &.activo {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: all;
+    }
+  }
+
+  &__imagen {
+    aspect-ratio: 3/4;
+    background: #444;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 12px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__sin-imagen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+  }
+
+  &__badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #8b6f5e;
+    color: #fff;
+    padding: 4px 10px;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  &__info {
+    h3 {
+      font-size: 15px;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+  }
+
+  &__precios {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  &__precio-original {
+    font-size: 13px;
+    color: #aaa;
+    text-decoration: line-through;
+  }
+
+  &__precio-oferta {
+    font-size: 16px;
+    color: #d4a574;
+    font-weight: 600;
+  }
+
+  &__arrow {
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: #fff;
+      color: #2c2c2c;
+    }
+  }
+
+  &__dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.3s;
+    padding: 0;
+
+    &.activo { background: #fff; }
+  }
 }

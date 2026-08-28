@@ -16,12 +16,22 @@
     font-size: 24px;
     font-weight: 700;
     letter-spacing: 2px;
+    font-family: 'Cormorant Garamond', serif;
   }
 
   p {
     font-size: 13px;
     color: #aaa;
     margin-top: 8px;
+  }
+
+  &__links-titulo {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 16px;
+    display: block;
   }
 
   &__links {
@@ -33,19 +43,23 @@
       color: #aaa;
       text-decoration: none;
       font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
 
       &:hover { color: #fff; }
     }
   }
 
-  &__social a {
-    color: #aaa;
-    text-decoration: none;
-    font-size: 13px;
+  &__social {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 
-    &:hover { color: #fff; }
+    a {
+      color: #aaa;
+      text-decoration: none;
+      font-size: 13px;
+
+      &:hover { color: #fff; }
+    }
   }
 
   &__bottom {

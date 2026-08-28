@@ -20,6 +20,11 @@
       </div>
 
       <div class="admin-form__field">
+        <label>Precio oferta (opcional)</label>
+        <input type="number" [(ngModel)]="form.precioOferta" placeholder="Dejar vacío si no tiene oferta">
+      </div>
+
+      <div class="admin-form__field">
         <label>Categoría *</label>
         <select [(ngModel)]="form.categoria">
           <option value="">Seleccioná una categoría</option>

@@ -1,11 +1,28 @@
 <section class="hero">
+  @for (imagen of imagenes; track $index) {
+    <div
+      class="hero__slide"
+      [class.activo]="imagenActiva === $index"
+      [style.background-image]="'url(' + imagen + ')'">
+    </div>
+  }
+
   <div class="hero__content">
     <h1>Khai.</h1>
     <p>Moda femenina con identidad propia 🤎</p>
-    <a routerLink="/productos" class="btn-primary">Ver colección</a>
+    <a routerLink="/productos" class="btn-primary hero__btn">Ver colección</a>
+  </div>
+
+  <div class="hero__dots">
+    @for (imagen of imagenes; track $index) {
+      <button
+        class="hero__dot"
+        [class.activo]="imagenActiva === $index"
+        (click)="imagenActiva = $index">
+      </button>
+    }
   </div>
 </section>
-
 @if (destacados.length > 0) {
   <section class="destacados container">
     <h2>Prenditas Destacadas 🏹🎀</h2>
@@ -71,3 +88,54 @@
     </div>
   }
 </section>
+
+@if (ofertas.length > 0) {
+  <section class="ofertas">
+    <div class="ofertas__header container">
+      <h2>Ofertas especiales 🏷️</h2>
+    </div>
+
+    <div class="ofertas__slider">
+      <button class="ofertas__arrow izq" (click)="anteriorOferta()">‹</button>
+
+      <div class="ofertas__track">
+        @for (producto of ofertas; track producto._id) {
+          <a
+            [routerLink]="['/productos', producto._id]"
+            class="ofertas__card"
+            [class.activo]="ofertaActiva === $index">
+            <div class="ofertas__imagen">
+              @if (producto.imagenes.length > 0) {
+                <img [src]="producto.imagenes[0]" [alt]="producto.nombre">
+              } @else {
+                <div class="ofertas__sin-imagen">📷</div>
+              }
+              <span class="ofertas__badge">
+                -{{ Math.round((1 - producto.precioOferta! / producto.precio) * 100) }}%
+              </span>
+            </div>
+            <div class="ofertas__info">
+              <h3>{{ producto.nombre }}</h3>
+              <div class="ofertas__precios">
+                <span class="ofertas__precio-original">${{ producto.precio.toLocaleString('es-AR') }}</span>
+                <span class="ofertas__precio-oferta">${{ producto.precioOferta!.toLocaleString('es-AR') }}</span>
+              </div>
+            </div>
+          </a>
+        }
+      </div>
+
+      <button class="ofertas__arrow der" (click)="siguienteOferta()">›</button>
+    </div>
+
+    <div class="ofertas__dots">
+      @for (producto of ofertas; track $index) {
+        <button
+          class="ofertas__dot"
+          [class.activo]="ofertaActiva === $index"
+          (click)="ofertaActiva = $index">
+        </button>
+      }
+    </div>
+  </section>
+}

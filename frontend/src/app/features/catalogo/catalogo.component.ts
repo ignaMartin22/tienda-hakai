@@ -17,13 +17,48 @@ export class CatalogoComponent implements OnInit {
   productos: Producto[] = [];
   destacados: Producto[] = [];
   categorias: Categoria[] = [];
+  ofertas: Producto[] = [];
   categoriaActiva: string = '';
   cargando = true;
+  ofertaActiva = 0;
+  imagenActiva = 0;
+  Math = Math;
+
+  imagenes = [
+    'https://res.cloudinary.com/do8lcskoq/image/upload/v1787953710/hero_hey_men.webp',
+    'https://res.cloudinary.com/do8lcskoq/image/upload/v1787954145/hero_slide2.webp',
+    'https://res.cloudinary.com/do8lcskoq/image/upload/v1787954146/hero_slide3.webp'
+  ]
 
   ngOnInit(): void {
     this.cargarCategorias();
     this.cargarDestacados();
     this.cargarProductos();
+    this.iniciarSlider();
+    this.cargarOfertas();
+  }
+
+
+  cargarOfertas():void{
+    this.productoService.getProductos({ destacado: true }).subscribe({
+      next: (prods) => this.ofertas = prods.filter(p => p.precioOferta),
+    error: (err) => console.error(err)
+  });
+  }
+
+  anteriorOferta(): void {
+  this.ofertaActiva = this.ofertaActiva === 0 ? this.ofertas.length - 1 : this.ofertaActiva - 1;
+}
+
+siguienteOferta(): void {
+  this.ofertaActiva = (this.ofertaActiva + 1) % this.ofertas.length;
+}
+
+
+  iniciarSlider():void{
+    setInterval(() => {
+     this.imagenActiva = (this.imagenActiva + 1) % this.imagenes.length;
+    }, 4000);
   }
 
   cargarCategorias(): void {

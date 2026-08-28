@@ -13,6 +13,7 @@ export interface Producto {
   nombre: string;
   descripcion: string;
   precio: number;
+  precioOferta: number | null;
   categoria: { _id: string; nombre: string; slug: string };
   tallas: Talla[];
   imagenes: string[];

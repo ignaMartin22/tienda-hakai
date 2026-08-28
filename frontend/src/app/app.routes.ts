@@ -19,6 +19,22 @@ export const routes: Routes = [
     loadComponent: () => import('./features/admin/login/login.component').then(m => m.LoginComponent)
   },
   {
+    path: 'contacto',
+    loadComponent:() => import('./features/info/contacto/contacto.component').then(m => m.ContactoComponent)
+  },
+  {
+  path: 'politica-devoluciones',
+  loadComponent: () => import('./features/info/politica/politica.component').then(m => m.PoliticaComponent)
+},
+{
+  path: 'como-comprar',
+  loadComponent: () => import('./features/info/como-comprar/como-comprar.component').then(m => m.ComoComprarComponent)
+},
+{
+  path: 'quienes-somos',
+  loadComponent: () => import('./features/info/quienes-somos/quienes-somos.component').then(m => m.QuienesSomosComponent)
+},
+  {
     path: 'admin',
     canActivate: [authGuard],
     loadComponent: () => import('./features/admin/dashboard/dashboard.component').then(m => m.DashboardComponent),

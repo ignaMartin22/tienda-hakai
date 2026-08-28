@@ -15,6 +15,11 @@ const productoSchema = new mongoose.Schema({
     required: true,
     min: 0
   },
+  precioOferta:{
+    type: Number,
+    min: 0,
+    default: null
+  },
   categoria: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Categoria',
