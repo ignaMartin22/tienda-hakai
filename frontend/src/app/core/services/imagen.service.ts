@@ -14,4 +14,7 @@ export class ImagenService {
     formData.append('imagen', file);
     return this.http.post<{ url: string }>(this.url, formData);
   }
+  eliminarImagen(url: string): Observable<any> {
+  return this.http.delete(this.url, { body: { url } });
+}
 }

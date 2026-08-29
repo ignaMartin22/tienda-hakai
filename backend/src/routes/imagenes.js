@@ -34,4 +34,19 @@ router.post('/', auth, upload.single('imagen'), async (req, res) => {
   }
 });
 
+router.delete('/', auth, async (req, res) => {
+  try {
+    const { url } = req.body;
+    const partes = url.split('/');
+    const archivo = partes[partes.length - 1].split('.')[0];
+    const carpeta = partes[partes.length - 2];
+    const publicId = `${carpeta}/${archivo}`;
+
+    await cloudinary.uploader.destroy(publicId);
+    res.json({ mensaje: 'Imagen eliminada' });
+  } catch (error) {
+    res.status(500).json({ mensaje: 'Error al eliminar imagen' });
+  }
+});
+
 module.exports = router;

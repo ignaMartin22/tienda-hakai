@@ -124,9 +124,11 @@ getStockTotal(producto: any): number {
     });
   }
 
-  eliminarImagen(idx: number): void {
-    this.form.imagenes.splice(idx, 1);
-  }
+ eliminarImagen(idx: number): void {
+  const url = this.form.imagenes[idx];
+  this.imagenService.eliminarImagen(url).subscribe();
+  this.form.imagenes.splice(idx, 1);
+}
 
   guardar(): void {
     if (!this.form.nombre || !this.form.precio || !this.form.categoria) {

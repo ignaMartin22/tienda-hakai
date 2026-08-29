@@ -1,4 +1,5 @@
 const Producto = require('../models/Producto');
+const cloudinary = require('../config/cloudinary');
 
 // GET /api/productos — catálogo público
 const getProductos = async (req, res) => {
@@ -75,11 +76,28 @@ const editarProducto = async (req, res) => {
 
 // DELETE /api/admin/productos/:id — eliminar
 const eliminarProducto = async (req, res) => {
-  try {
-    const producto = await Producto.findByIdAndDelete(req.params.id);
+ try {
+    const producto = await Producto.findById(req.params.id);
     if (!producto) return res.status(404).json({ mensaje: 'Producto no encontrado' });
-    res.json({ mensaje: 'Producto eliminado' });
+
+    // Eliminar imágenes de Cloudinary
+    if (producto.imagenes.length > 0) {
+      const eliminaciones = producto.imagenes.map(url => {
+        // Extraer el public_id de la URL
+        // URL formato: https://res.cloudinary.com/cloud/image/upload/v123/hakai-tienda/nombre.webp
+        const partes = url.split('/');
+        const archivo = partes[partes.length - 1].split('.')[0];
+        const carpeta = partes[partes.length - 2];
+        const publicId = `${carpeta}/${archivo}`;
+        return cloudinary.uploader.destroy(publicId);
+      });
+      await Promise.all(eliminaciones);
+    }
+
+    await Producto.findByIdAndDelete(req.params.id);
+    res.json({ mensaje: 'Producto e imágenes eliminados' });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ mensaje: 'Error al eliminar producto' });
   }
 };

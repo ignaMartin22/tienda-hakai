@@ -23,6 +23,7 @@ export class CatalogoComponent implements OnInit {
   ofertaActiva = 0;
   imagenActiva = 0;
   Math = Math;
+     menuAbierto = false;
 
   imagenes = [
     'https://res.cloudinary.com/do8lcskoq/image/upload/v1787953710/hero_hey_men.webp',
@@ -38,6 +39,15 @@ export class CatalogoComponent implements OnInit {
     this.cargarOfertas();
   }
 
+   irAProductos(): void {
+  this.menuAbierto = false;
+  const el = document.querySelector('.catalogo');
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' });
+  } else {
+    window.location.href = '/';
+  }
+}
 
   cargarOfertas():void{
     this.productoService.getProductos({ destacado: true }).subscribe({

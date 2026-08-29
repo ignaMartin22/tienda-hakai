@@ -108,7 +108,7 @@
   }
 
   &__resumen {
-    background: #faf7f5;
+    background: var(--color-fondo-claro);
     padding: 32px;
     display: flex;
     flex-direction: column;

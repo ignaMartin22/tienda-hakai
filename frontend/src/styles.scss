@@ -6,10 +6,14 @@
   box-sizing: border-box;
 }
 
+:root {
+  --color-fondo: #ede0d9;
+  --color-fondo-claro: #f5ede8;
+}
 body {
   font-family: 'Montserrat', sans-serif;
   color: #2c2c2c;
-  background: #fafafa;
+  background: var(--color-fondo);
 }
 
 h1, h2, h3 {

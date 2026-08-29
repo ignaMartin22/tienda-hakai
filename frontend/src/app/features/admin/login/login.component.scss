@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #faf7f5;
+    background: var(--color-fondo-claro);
 
   &__card {
     background: #fff;

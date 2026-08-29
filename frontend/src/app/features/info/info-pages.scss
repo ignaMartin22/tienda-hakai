@@ -1,6 +1,6 @@
 .info-page {
   &__hero {
-    background: #f5ede8;
+    background: var(--color-fondo-claro);
     padding: 80px 32px;
     text-align: center;
 
@@ -63,7 +63,7 @@
   &__numero {
     font-size: 48px;
     font-weight: 300;
-    color: #e0d5cf;
+    color: #9e9894;
     font-family: 'Cormorant Garamond', serif;
     line-height: 1;
   }
