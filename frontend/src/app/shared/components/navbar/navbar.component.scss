@@ -17,7 +17,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 32px;
+    padding: 20px 48px;
+    position: relative;
     border-bottom: 1px solid #f0f0f0;
   }
 
@@ -30,26 +31,7 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-  }
-
-  &__links {
-    display: flex;
-    gap: 32px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    a {
-      text-decoration: none;
-      color: #2c2c2c;
-      font-size: 14px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-
-      &:hover {
-        color: #8b6f5e;
-      }
-    }
+    font-family: 'Cormorant Garamond', serif;
   }
 
   &__carrito {
@@ -72,6 +54,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  &__links-bar {
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: center;
+    padding: 12px 48px;
+  }
+
+  &__links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    a {
+      text-decoration: none;
+      color: #2c2c2c;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+
+      &:hover { color: #8b6f5e; }
+    }
   }
 
   &__hamburger {
@@ -97,19 +103,24 @@
       display: flex;
     }
 
-    &__links {
+    &__links-bar {
       display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: #fff;
-      flex-direction: column;
-      padding: 16px 32px;
-      border-bottom: 1px solid #f0f0f0;
+      padding: 0;
 
       &.open {
         display: flex;
+      }
+    }
+
+    &__links {
+      flex-direction: column;
+      gap: 0;
+      width: 100%;
+
+      li a {
+        display: block;
+        padding: 14px 32px;
+        border-bottom: 1px solid #f0f0f0;
       }
     }
   }

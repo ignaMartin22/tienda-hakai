@@ -1,15 +1,25 @@
 <div class="dashboard">
-  <aside class="dashboard__sidebar">
-    <div class="dashboard__logo">Khai.</div>
+
+  <div
+    class="dashboard__overlay"
+    [class.visible]="sidebarAbierto"
+    (click)="cerrarSidebar()">
+  </div>
+
+  <aside class="dashboard__sidebar" [class.abierto]="sidebarAbierto">
+    <div class="dashboard__sidebar-header">
+      <div class="dashboard__logo">Khai.</div>
+      <button class="dashboard__cerrar" (click)="cerrarSidebar()">✕</button>
+    </div>
 
     <nav class="dashboard__nav">
-      <a routerLink="/admin/productos" routerLinkActive="activo">
+      <a routerLink="/admin/productos" routerLinkActive="activo" (click)="cerrarSidebar()">
         📦 Productos
       </a>
-      <a routerLink="/admin/categorias" routerLinkActive="activo">
+      <a routerLink="/admin/categorias" routerLinkActive="activo" (click)="cerrarSidebar()">
         🏷️ Categorías
       </a>
-      <a routerLink="/admin/pedidos" routerLinkActive="activo">
+      <a routerLink="/admin/pedidos" routerLinkActive="activo" (click)="cerrarSidebar()">
         📋 Pedidos
       </a>
     </nav>
@@ -21,6 +31,13 @@
   </aside>
 
   <main class="dashboard__content">
+    <div class="dashboard__topbar">
+      <button class="dashboard__hamburger" (click)="sidebarAbierto = true">
+        <span></span><span></span><span></span>
+      </button>
+      <span class="dashboard__topbar-logo">Khai.</span>
+    </div>
     <router-outlet />
   </main>
+
 </div>

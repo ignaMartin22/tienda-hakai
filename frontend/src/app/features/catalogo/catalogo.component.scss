@@ -146,11 +146,15 @@
     }
   }
 }
-
 .productos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 32px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
 }
 
 .producto-card {
@@ -355,5 +359,18 @@
     padding: 0;
 
     &.activo { background: #fff; }
+  }
+ 
+}
+
+ .catalogo__banner {
+  margin-top: 64px;
+  width: 100%;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
   }
 }

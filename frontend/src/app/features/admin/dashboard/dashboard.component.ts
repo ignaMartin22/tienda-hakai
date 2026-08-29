@@ -13,9 +13,14 @@ import { Router } from '@angular/router';
 export class DashboardComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
+  sidebarAbierto = false;
 
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/admin/login']);
+  }
+
+  cerrarSidebar(): void {
+    this.sidebarAbierto = false;
   }
 }

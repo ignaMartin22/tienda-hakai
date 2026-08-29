@@ -10,10 +10,6 @@
 
     <a routerLink="/" class="navbar__logo">Khai.</a>
 
-    <ul class="navbar__links" [class.open]="menuAbierto">
-      <li><a routerLink="/" (click)="menuAbierto = false">Inicio</a></li>
-<li><a (click)="irAProductos()" style="cursor:pointer">Productos</a></li>    </ul>
-
     <a routerLink="/carrito" class="navbar__carrito">
       🛍️
       @if (carritoService.cantidadTotal() > 0) {
@@ -21,4 +17,15 @@
       }
     </a>
   </nav>
+
+  <div class="navbar__links-bar" [class.open]="menuAbierto">
+    <ul class="navbar__links">
+      <li><a routerLink="/" (click)="menuAbierto = false">Inicio</a></li>
+      <li><a (click)="irAProductos()" style="cursor:pointer">Productos</a></li>
+      <li><a routerLink="/contacto" (click)="menuAbierto = false">Contacto</a></li>
+      <li><a routerLink="/politica-devoluciones" (click)="menuAbierto = false">Política de Devolución</a></li>
+      <li><a routerLink="/como-comprar" (click)="menuAbierto = false">Cómo Comprar</a></li>
+      <li><a routerLink="/quienes-somos" (click)="menuAbierto = false">Quiénes Somos</a></li>
+    </ul>
+  </div>
 </header>
