@@ -264,8 +264,7 @@
       }
     }
   }
-}
-@media (max-width: 768px) {
+}@media (max-width: 768px) {
   .admin-section {
     &__header {
       flex-direction: column;
@@ -285,7 +284,6 @@
 
     &__acciones {
       flex-direction: column;
-
       button { width: 100%; }
     }
   }
@@ -296,13 +294,24 @@
     &__fila {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 4px;
       padding: 16px;
+      border-bottom: 2px solid #f0f0f0;
     }
 
     &__nombre {
       font-size: 15px;
-      font-weight: 500;
+      font-weight: 600;
+      margin-bottom: 4px;
+
+      img {
+        width: 48px;
+        height: 48px;
+      }
+    }
+
+    &__badge {
+      width: fit-content;
     }
 
     &__acciones {
@@ -312,7 +321,21 @@
       button {
         flex: 1;
         padding: 10px;
+        text-align: center;
       }
     }
+  }
+}
+.admin-tabla {
+  &__precio-oferta {
+    color: #8b6f5e;
+    font-weight: 600;
+  }
+
+  &__precio-tachado {
+    font-size: 11px;
+    color: #aaa;
+    text-decoration: line-through;
+    display: block;
   }
 }

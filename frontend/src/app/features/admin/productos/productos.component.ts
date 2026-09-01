@@ -25,18 +25,18 @@ export class ProductosComponent implements OnInit {
   subiendoImagen = false;
   error = '';
 
-tallas = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '36', '38', '40', '42', 'único'];
+  tallas = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '36', '38', '40', '42', 'único'];
 
-form: any = {
-  nombre: '',
-  descripcion: '',
-  precio: null,
-  categoria: '',
-  tallas: [],
-  imagenes: [],
-  activo: true,
-  destacado: false
-};
+  form: any = {
+    nombre: '',
+    descripcion: '',
+    precio: null,
+    categoria: '',
+    tallas: [],
+    imagenes: [],
+    activo: true,
+    destacado: false
+  };
 
   ngOnInit(): void {
     this.cargarProductos();
@@ -48,6 +48,7 @@ form: any = {
       next: (p) => { this.productos = p; this.cargando = false; },
       error: () => this.cargando = false
     });
+
   }
 
   cargarCategorias(): void {
@@ -62,6 +63,7 @@ form: any = {
       nombre: producto.nombre,
       descripcion: producto.descripcion,
       precio: producto.precio,
+      precioOferta: producto.precioOferta || null,
       categoria: producto.categoria._id,
       tallas: producto ? producto.tallas.map((t: any) => ({ talla: t.talla, stock: t.stock })) : [],
       imagenes: [...producto.imagenes],
@@ -69,6 +71,7 @@ form: any = {
       destacado: producto.destacado
     } : {
       nombre: '', descripcion: '', precio: null,
+      precioOferta: null,
       categoria: '', tallas: [], imagenes: [],
       stock: 0, activo: true, destacado: false
     };
@@ -82,30 +85,30 @@ form: any = {
     this.error = '';
   }
 
- toggleTalla(talla: string): void {
-  const idx = this.form.tallas.findIndex((t: any) => t.talla === talla);
-  if (idx >= 0) {
-    this.form.tallas.splice(idx, 1);
-  } else {
-    this.form.tallas.push({ talla, stock: 0 });
+  toggleTalla(talla: string): void {
+    const idx = this.form.tallas.findIndex((t: any) => t.talla === talla);
+    if (idx >= 0) {
+      this.form.tallas.splice(idx, 1);
+    } else {
+      this.form.tallas.push({ talla, stock: 0 });
+    }
   }
-}
 
-tieneTalla(talla: string): boolean {
-  return this.form.tallas.some((t: any) => t.talla === talla);
-}
+  tieneTalla(talla: string): boolean {
+    return this.form.tallas.some((t: any) => t.talla === talla);
+  }
 
-getStockTalla(talla: string): number {
-  return this.form.tallas.find((t: any) => t.talla === talla)?.stock || 0;
-}
+  getStockTalla(talla: string): number {
+    return this.form.tallas.find((t: any) => t.talla === talla)?.stock || 0;
+  }
 
-setStockTalla(talla: string, stock: number): void {
-  const item = this.form.tallas.find((t: any) => t.talla === talla);
-  if (item) item.stock = stock;
-}
-getStockTotal(producto: any): number {
-  return producto.tallas.reduce((acc: number, t: any) => acc + t.stock, 0);
-}
+  setStockTalla(talla: string, stock: number): void {
+    const item = this.form.tallas.find((t: any) => t.talla === talla);
+    if (item) item.stock = stock;
+  }
+  getStockTotal(producto: any): number {
+    return producto.tallas.reduce((acc: number, t: any) => acc + t.stock, 0);
+  }
 
   onImagenSeleccionada(event: any): void {
     const file: File = event.target.files[0];
@@ -124,11 +127,11 @@ getStockTotal(producto: any): number {
     });
   }
 
- eliminarImagen(idx: number): void {
-  const url = this.form.imagenes[idx];
-  this.imagenService.eliminarImagen(url).subscribe();
-  this.form.imagenes.splice(idx, 1);
-}
+  eliminarImagen(idx: number): void {
+    const url = this.form.imagenes[idx];
+    this.imagenService.eliminarImagen(url).subscribe();
+    this.form.imagenes.splice(idx, 1);
+  }
 
   guardar(): void {
     if (!this.form.nombre || !this.form.precio || !this.form.categoria) {
@@ -143,6 +146,7 @@ getStockTotal(producto: any): number {
 
     obs.subscribe({
       next: () => {
+        this.productoService.invalidarCache();
         this.cargarProductos();
         this.cerrarForm();
         this.guardando = false;
@@ -157,7 +161,12 @@ getStockTotal(producto: any): number {
   eliminar(id: string): void {
     if (!confirm('¿Seguro que querés eliminar este producto?')) return;
     this.productoService.eliminarProducto(id).subscribe({
-      next: () => this.cargarProductos()
+      next: () => {
+        this.productoService.invalidarCache();
+        this.cargarProductos();
+      }
     });
   }
+
+
 }

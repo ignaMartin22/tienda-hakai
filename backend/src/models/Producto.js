@@ -47,4 +47,7 @@ const productoSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
+productoSchema.index({activo: 1, categoria: 1});
+productoSchema.index({ destacado: 1, activo: 1 });
+productoSchema.index({createdAt: -1});
 module.exports = mongoose.model('Producto', productoSchema);

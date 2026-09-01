@@ -1,148 +1,137 @@
 <section class="hero">
   @for (imagen of imagenes; track $index) {
-    <div
-      class="hero__slide"
-      [class.activo]="imagenActiva === $index"
-      [style.background-image]="'url(' + imagen + ')'">
-    </div>
+  <div class="hero__slide" [class.activo]="imagenActiva === $index" [style.background-image]="'url(' + imagen + ')'">
+  </div>
   }
 
   <div class="hero__content">
     <h1>Khai.</h1>
     <p>Moda femenina con identidad propia 🤎</p>
-    <a (click)="irAProductos()"  class="btn-primary hero__btn">Ver colección</a>
+    <a (click)="irAProductos()" class="btn-primary hero__btn">Ver colección</a>
   </div>
 
   <div class="hero__dots">
     @for (imagen of imagenes; track $index) {
-      <button
-        class="hero__dot"
-        [class.activo]="imagenActiva === $index"
-        (click)="imagenActiva = $index">
-      </button>
+    <button class="hero__dot" [class.activo]="imagenActiva === $index" (click)="imagenActiva = $index">
+    </button>
     }
   </div>
 </section>
 @if (destacados.length > 0) {
-  <section class="destacados container">
-    <h2>Prenditas Destacadas 🏹🎀</h2>
-    <div class="productos-grid">
-      @for (producto of destacados; track producto._id) {
-        <a [routerLink]="['/productos', producto._id]" class="producto-card">
-          <div class="producto-card__imagen">
-            @if (producto.imagenes.length > 0) {
-              <img [src]="producto.imagenes[0]" [alt]="producto.nombre">
-            } @else {
-              <div class="producto-card__sin-imagen">📷</div>
-            }
-          </div>
-          <div class="producto-card__info">
-            <h3>{{ producto.nombre }}</h3>
-            <p class="producto-card__precio">${{ producto.precio.toLocaleString('es-AR') }}</p>
-          </div>
-        </a>
-      }
-    </div>
-  </section>
+<section class="destacados container">
+  <h2>Prenditas Destacadas 🏹🎀</h2>
+  <div class="productos-grid">
+    @for (producto of destacados; track producto._id) {
+   <a [routerLink]="['/productos', producto._id]" class="producto-card">
+  <div class="producto-card__imagen">
+    @if (producto.imagenes.length > 0) {
+      <img [src]="producto.imagenes[0]" [alt]="producto.nombre">
+    } @else {
+      <div class="producto-card__sin-imagen">📷</div>
+    }
+    @if (producto.precioOferta) {
+      <span class="producto-card__badge">
+        -{{ Math.round((1 - producto.precioOferta / producto.precio) * 100) }}%
+      </span>
+    }
+  </div>
+  <div class="producto-card__info">
+    <h3>{{ producto.nombre }}</h3>
+    @if (producto.precioOferta) {
+      <div class="producto-card__precios">
+        <span class="producto-card__precio-original">${{ producto.precio.toLocaleString('es-AR') }}</span>
+        <span class="producto-card__precio-oferta">${{ producto.precioOferta.toLocaleString('es-AR') }}</span>
+      </div>
+    } @else {
+      <p class="producto-card__precio">${{ producto.precio.toLocaleString('es-AR') }}</p>
+    }
+  </div>
+</a>
+    }
+  </div>
+</section>
 }
 
 <section class="catalogo container">
   <h2>Todos los productos</h2>
 
   <div class="categorias-filtro">
+  <button
+    [class.activo]="categoriaActiva === '' && !enOferta"
+    (click)="filtrarPorCategoria('')">
+    Todos
+  </button>
+  @for (cat of categorias; track cat._id) {
     <button
-      [class.activo]="categoriaActiva === ''"
-      (click)="filtrarPorCategoria('')">
-      Todos
+      [class.activo]="categoriaActiva === cat._id"
+      (click)="filtrarPorCategoria(cat._id)">
+      {{ cat.nombre }}
     </button>
-    @for (cat of categorias; track cat._id) {
-      <button
-        [class.activo]="categoriaActiva === cat._id"
-        (click)="filtrarPorCategoria(cat._id)">
-        {{ cat.nombre }}
-      </button>
-    }
-  </div>
+  }
+  <button
+    class="categorias-filtro__oferta"
+    [class.activo]="enOferta"
+    (click)="filtrarOfertas()">
+    🏷️ Ofertas
+  </button>
+</div>
 
   @if (cargando) {
-    <div class="cargando">Cargando productos...</div>
+  <div class="cargando">Cargando productos...</div>
   } @else if (productos.length === 0) {
-    <div class="vacio">No hay productos disponibles todavía 🌸</div>
+  <div class="vacio">No hay productos disponibles todavía 🌸</div>
   } @else {
-    <div class="productos-grid">
-      @for (producto of productos; track producto._id) {
-        <a [routerLink]="['/productos', producto._id]" class="producto-card">
-          <div class="producto-card__imagen">
-            @if (producto.imagenes.length > 0) {
-              <img [src]="producto.imagenes[0]" [alt]="producto.nombre">
-            } @else {
-              <div class="producto-card__sin-imagen">📷</div>
-            }
-          </div>
-          <div class="producto-card__info">
-            <h3>{{ producto.nombre }}</h3>
-            <p class="producto-card__precio">${{ producto.precio.toLocaleString('es-AR') }}</p>
-          </div>
-        </a>
-      }
-    </div>
+  <div class="productos-grid">
+    @for (producto of productos; track producto._id) {
+    <a [routerLink]="['/productos', producto._id]" class="producto-card">
+  <div class="producto-card__imagen">
+    @if (producto.imagenes.length > 0) {
+      <img [src]="producto.imagenes[0]" [alt]="producto.nombre">
+    } @else {
+      <div class="producto-card__sin-imagen">📷</div>
+    }
+    @if (producto.precioOferta) {
+      <span class="producto-card__badge">
+        -{{ Math.round((1 - producto.precioOferta / producto.precio) * 100) }}%
+      </span>
+    }
+  </div>
+  <div class="producto-card__info">
+    <h3>{{ producto.nombre }}</h3>
+    @if (producto.precioOferta) {
+      <div class="producto-card__precios">
+        <span class="producto-card__precio-original">${{ producto.precio.toLocaleString('es-AR') }}</span>
+        <span class="producto-card__precio-oferta">${{ producto.precioOferta.toLocaleString('es-AR') }}</span>
+      </div>
+    } @else {
+      <p class="producto-card__precio">${{ producto.precio.toLocaleString('es-AR') }}</p>
+    }
+  </div>
+</a>
+    }
+  </div>
+  }
+
+  @if (totalPaginas > 1) {
+  <div class="catalogo__paginacion">
+    <button class="catalogo__pag-btn" [disabled]="pagina === 1" (click)="cambiarPagina(pagina - 1)">
+      ‹
+    </button>
+
+    @for (p of [].constructor(totalPaginas); track $index) {
+    <button class="catalogo__pag-btn" [class.activo]="pagina === $index + 1" (click)="cambiarPagina($index + 1)">
+      {{ $index + 1 }}
+    </button>
+    }
+
+    <button class="catalogo__pag-btn" [disabled]="pagina === totalPaginas" (click)="cambiarPagina(pagina + 1)">
+      ›
+    </button>
+  </div>
   }
 </section>
 
-@if (ofertas.length > 0) {
-  <section class="ofertas">
-    <div class="ofertas__header container">
-      <h2>Ofertas especiales 🏷️</h2>
-    </div>
-
-    <div class="ofertas__slider">
-      <button class="ofertas__arrow izq" (click)="anteriorOferta()">‹</button>
-
-      <div class="ofertas__track">
-        @for (producto of ofertas; track producto._id) {
-          <a
-            [routerLink]="['/productos', producto._id]"
-            class="ofertas__card"
-            [class.activo]="ofertaActiva === $index">
-            <div class="ofertas__imagen">
-              @if (producto.imagenes.length > 0) {
-                <img [src]="producto.imagenes[0]" [alt]="producto.nombre">
-              } @else {
-                <div class="ofertas__sin-imagen">📷</div>
-              }
-              <span class="ofertas__badge">
-                -{{ Math.round((1 - producto.precioOferta! / producto.precio) * 100) }}%
-              </span>
-            </div>
-            <div class="ofertas__info">
-              <h3>{{ producto.nombre }}</h3>
-              <div class="ofertas__precios">
-                <span class="ofertas__precio-original">${{ producto.precio.toLocaleString('es-AR') }}</span>
-                <span class="ofertas__precio-oferta">${{ producto.precioOferta!.toLocaleString('es-AR') }}</span>
-              </div>
-            </div>
-          </a>
-        }
-      </div>
-
-      <button class="ofertas__arrow der" (click)="siguienteOferta()">›</button>
-    </div>
-
-    <div class="ofertas__dots">
-      @for (producto of ofertas; track $index) {
-        <button
-          class="ofertas__dot"
-          [class.activo]="ofertaActiva === $index"
-          (click)="ofertaActiva = $index">
-        </button>
-      }
-    </div>
-
-
-  </section>
-}
-    <div class="catalogo__banner">
-  <img
-    src="https://res.cloudinary.com/do8lcskoq/image/upload/v1788038915/oferta_tarjeta.webp"
+<div class="catalogo__banner">
+  <img src="https://res.cloudinary.com/do8lcskoq/image/upload/v1788038915/oferta_tarjeta.webp"
     alt="Oferta especial Khai.">
 </div>

@@ -14,61 +14,40 @@ export class CatalogoComponent implements OnInit {
   private productoService = inject(ProductoService);
   private categoriaService = inject(CategoriaService);
 
+  Math = Math;
   productos: Producto[] = [];
   destacados: Producto[] = [];
   categorias: Categoria[] = [];
-  ofertas: Producto[] = [];
-  categoriaActiva: string = '';
+  categoriaActiva = '';
   cargando = true;
-  ofertaActiva = 0;
-  imagenActiva = 0;
-  Math = Math;
-     menuAbierto = false;
-
+  pagina = 1;
+  totalPaginas = 1;
+  enOferta = false;
   imagenes = [
     'https://res.cloudinary.com/do8lcskoq/image/upload/v1787953710/hero_hey_men.webp',
     'https://res.cloudinary.com/do8lcskoq/image/upload/v1787954145/hero_slide2.webp',
     'https://res.cloudinary.com/do8lcskoq/image/upload/v1787954146/hero_slide3.webp'
   ]
 
+  imagenActiva = 0;
+  ofertaActiva = 0;
+
   ngOnInit(): void {
     this.cargarCategorias();
     this.cargarDestacados();
     this.cargarProductos();
-    this.iniciarSlider();
-    this.cargarOfertas();
   }
 
-   irAProductos(): void {
-  this.menuAbierto = false;
-  const el = document.querySelector('.catalogo');
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth' });
-  } else {
-    window.location.href = '/';
-  }
-}
+  menuAbierto = false;
 
-  cargarOfertas():void{
-    this.productoService.getProductos({ destacado: true }).subscribe({
-      next: (prods) => this.ofertas = prods.filter(p => p.precioOferta),
-    error: (err) => console.error(err)
-  });
-  }
-
-  anteriorOferta(): void {
-  this.ofertaActiva = this.ofertaActiva === 0 ? this.ofertas.length - 1 : this.ofertaActiva - 1;
-}
-
-siguienteOferta(): void {
-  this.ofertaActiva = (this.ofertaActiva + 1) % this.ofertas.length;
-}
-
-
-  iniciarSlider():void{
-    setInterval(() => {
-     this.imagenActiva = (this.imagenActiva + 1) % this.imagenes.length;
-    }, 4000);
+  irAProductos(): void {
+    this.menuAbierto = false;
+    const el = document.querySelector('.catalogo');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.location.href = '/';
+    }
   }
 
   cargarCategorias(): void {
@@ -79,28 +58,53 @@ siguienteOferta(): void {
   }
 
   cargarDestacados(): void {
-    this.productoService.getProductos({ destacado: true }).subscribe({
-      next: (prods) => this.destacados = prods,
+    this.productoService.getProductos({ destacado: true, limit: 4 }).subscribe({
+      next: (res) => this.destacados = res.productos,
       error: (err) => console.error(err)
     });
   }
 
-  cargarProductos(categoriaId?: string): void {
-    this.cargando = true;
-    this.productoService.getProductos({ categoria: categoriaId }).subscribe({
-      next: (prods) => {
-        this.productos = prods;
-        this.cargando = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.cargando = false;
-      }
-    });
+
+cargarProductosConFiltro(): void {
+  this.cargando = true;
+  this.productoService.getProductos({
+    categoria: this.categoriaActiva || undefined,
+    enOferta: this.enOferta || undefined,
+    page: this.pagina,
+    limit: 12
+  }).subscribe({
+    next: (res) => {
+      this.productos = res.productos;
+      this.totalPaginas = res.totalPaginas;
+      this.pagina = res.pagina;
+      this.cargando = false;
+    },
+    error: () => this.cargando = false
+  });
+}
+
+cargarProductos(categoriaId?: string, pagina = 1): void {
+  this.pagina = pagina;
+  this.cargarProductosConFiltro();
+}
+
+ filtrarPorCategoria(categoriaId: string): void {
+  this.categoriaActiva = categoriaId;
+  this.enOferta = false;
+  this.pagina = 1;
+  this.cargarProductosConFiltro();
+}
+
+  cambiarPagina(pagina: number): void {
+    this.pagina = pagina;
+    this.cargarProductos(this.categoriaActiva || undefined, pagina);
+    document.querySelector('.catalogo')?.scrollIntoView({ behavior: 'smooth' });
   }
 
-  filtrarPorCategoria(categoriaId: string): void {
-    this.categoriaActiva = categoriaId;
-    this.cargarProductos(categoriaId || undefined);
-  }
+  filtrarOfertas(): void {
+  this.categoriaActiva = '';
+  this.enOferta = true;
+  this.pagina = 1;
+  this.cargarProductosConFiltro();
+}
 }

@@ -126,7 +126,14 @@
         {{ producto.nombre }}
       </span>
       <span>{{ producto.categoria.nombre }}</span>
-      <span>${{ producto.precio.toLocaleString('es-AR') }}</span>
+      <span [class.admin-tabla__precio-oferta]="producto.precioOferta">
+        @if (producto.precioOferta) {
+        <span class="admin-tabla__precio-tachado">${{ producto.precio.toLocaleString('es-AR') }}</span>
+        ${{ producto.precioOferta.toLocaleString('es-AR') }}
+        } @else {
+        ${{ producto.precio.toLocaleString('es-AR') }}
+        }
+      </span>
       <span>{{ getStockTotal(producto) }}</span>
       <span>
         <span class="admin-tabla__badge" [class.activa]="producto.activo">

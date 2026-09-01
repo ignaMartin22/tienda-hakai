@@ -23,4 +23,6 @@ const categoriaSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
+categoriaSchema.index({activo: 1});
+
 module.exports = mongoose.model('Categoria', categoriaSchema);

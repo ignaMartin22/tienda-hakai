@@ -4,18 +4,24 @@ const cloudinary = require('../config/cloudinary');
 // GET /api/productos — catálogo público
 const getProductos = async (req, res) => {
   try {
-    const { categoria, destacado, talla } = req.query;
+    const { categoria, destacado, talla, page = 1, limit = 12, enOferta } = req.query;
     const filtro = { activo: true };
 
     if (categoria) filtro.categoria = categoria;
     if (destacado) filtro.destacado = true;
-    if (talla) filtro.tallas = { $in: [talla] };
+    if (talla) filtro.tallas = { $elemMatch: { talla, stock: { $gt: 0 } } };
+    if (enOferta) filtro.precioOferta = { $gt: 0 };
+
+    const skip = (page - 1) * limit;
+    const total = await Producto.countDocuments(filtro);
 
     const productos = await Producto.find(filtro)
       .populate('categoria', 'nombre slug')
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(Number(limit));
 
-    res.json(productos);
+    res.json({ productos, total, pagina: Number(page), totalPaginas: Math.ceil(total / limit) });
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al obtener productos' });
   }
