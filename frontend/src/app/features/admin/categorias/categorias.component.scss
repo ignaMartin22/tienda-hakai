@@ -11,7 +11,8 @@
     }
   }
 
-  &__cargando, &__vacio {
+  &__cargando,
+  &__vacio {
     text-align: center;
     padding: 48px;
     color: #aaa;
@@ -22,7 +23,7 @@
   background: #fff;
   padding: 32px;
   margin-bottom: 32px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 
   h3 {
     font-size: 20px;
@@ -43,7 +44,9 @@
       color: #888;
     }
 
-    input, textarea, select {
+    input,
+    textarea,
+    select {
       border: 1px solid #e0e0e0;
       padding: 10px 14px;
       font-size: 14px;
@@ -51,7 +54,9 @@
       outline: none;
       transition: border-color 0.3s;
 
-      &:focus { border-color: #2c2c2c; }
+      &:focus {
+        border-color: #2c2c2c;
+      }
     }
 
     textarea {
@@ -74,7 +79,7 @@
 
 .admin-tabla {
   background: #fff;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 
   &__header {
     display: grid;
@@ -96,8 +101,13 @@
     font-size: 14px;
     transition: background 0.2s;
 
-    &:hover { background: #faf7f5; }
-    &:last-child { border-bottom: none; }
+    &:hover {
+      background: #faf7f5;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
   }
 
   &__slug {
@@ -119,28 +129,34 @@
   }
 
   &__acciones {
-    display: flex;
-    gap: 8px;
+  display: flex;
+  gap: 8px;
 
-    button {
-      background: none;
-      border: 1px solid #ddd;
-      padding: 6px 12px;
-      font-size: 12px;
-      cursor: pointer;
-      transition: all 0.3s;
+  button {
+    border: none;
+    padding: 8px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s;
 
-      &:hover { border-color: #2c2c2c; }
+    &.editar {
+      background: #e8f0fe;
+      color: #1a73e8;
 
-      &.eliminar {
-        &:hover {
-          border-color: #c0392b;
-          color: #c0392b;
-        }
-      }
+      &:hover { background: #1a73e8; color: #fff; }
+    }
+
+    &.eliminar {
+      background: #fce4ec;
+      color: #c62828;
+
+      &:hover { background: #c62828; color: #fff; }
     }
   }
 }
+}
+
 @media (max-width: 768px) {
   .admin-section {
     &__header {
@@ -148,7 +164,9 @@
       align-items: flex-start;
       gap: 16px;
 
-      button { width: 100%; }
+      button {
+        width: 100%;
+      }
     }
   }
 
@@ -158,12 +176,16 @@
     &__acciones {
       flex-direction: column;
 
-      button { width: 100%; }
+      button {
+        width: 100%;
+      }
     }
   }
 
   .admin-tabla {
-    &__header { display: none; }
+    &__header {
+      display: none;
+    }
 
     &__fila {
       display: flex;
@@ -173,11 +195,36 @@
     }
 
     &__acciones {
-      margin-top: 8px;
+      display: flex;
+      gap: 8px;
 
       button {
-        flex: 1;
-        padding: 10px;
+        border: none;
+        padding: 8px 12px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.3s;
+
+        &.editar {
+          background: #e8f0fe;
+          color: #1a73e8;
+
+          &:hover {
+            background: #1a73e8;
+            color: #fff;
+          }
+        }
+
+        &.eliminar {
+          background: #fce4ec;
+          color: #c62828;
+
+          &:hover {
+            background: #c62828;
+            color: #fff;
+          }
+        }
       }
     }
   }

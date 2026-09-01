@@ -140,10 +140,10 @@
           {{ producto.activo ? 'Activo' : 'Inactivo' }}
         </span>
       </span>
-      <span class="admin-tabla__acciones">
-        <button (click)="abrirForm(producto)">Editar</button>
-        <button class="eliminar" (click)="eliminar(producto._id)">Eliminar</button>
-      </span>
+<span class="admin-tabla__acciones">
+  <button class="editar" (click)="abrirForm(producto)" title="Editar">✏️</button>
+  <button class="eliminar" (click)="eliminar(producto._id)" title="Eliminar">🗑️</button>
+</span>
     </div>
     }
   </div>

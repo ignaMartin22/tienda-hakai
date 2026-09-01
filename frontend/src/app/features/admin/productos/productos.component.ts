@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ProductoService, Producto } from '../../../core/services/producto.service';
 import { CategoriaService, Categoria } from '../../../core/services/categoria.service';
 import { ImagenService } from '../../../core/services/imagen.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-productos',
@@ -158,15 +159,35 @@ export class ProductosComponent implements OnInit {
     });
   }
 
-  eliminar(id: string): void {
-    if (!confirm('¿Seguro que querés eliminar este producto?')) return;
-    this.productoService.eliminarProducto(id).subscribe({
-      next: () => {
-        this.productoService.invalidarCache();
-        this.cargarProductos();
-      }
-    });
-  }
+eliminar(id: string): void {
+  Swal.fire({
+    title: '¿Eliminar producto?',
+    text: 'Se eliminará el producto y todas sus imágenes. Esta acción no se puede deshacer.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#c62828',
+    cancelButtonColor: '#aaa',
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  }).then(result => {
+    if (result.isConfirmed) {
+      this.productoService.eliminarProducto(id).subscribe({
+        next: () => {
+          this.productoService.invalidarCache();
+          this.cargarProductos();
+          Swal.fire({
+            title: 'Eliminado',
+            text: 'El producto fue eliminado correctamente.',
+            icon: 'success',
+            confirmButtonColor: '#2c2c2c',
+            timer: 2000,
+            showConfirmButton: false
+          });
+        }
+      });
+    }
+  });
+}
 
 
 }

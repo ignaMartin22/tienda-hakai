@@ -11,7 +11,8 @@
     }
   }
 
-  &__cargando, &__vacio {
+  &__cargando,
+  &__vacio {
     text-align: center;
     padding: 48px;
     color: #aaa;
@@ -22,7 +23,7 @@
   background: #fff;
   padding: 32px;
   margin-bottom: 32px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 
   h3 {
     font-size: 20px;
@@ -43,7 +44,9 @@
       color: #888;
     }
 
-    input, textarea, select {
+    input,
+    textarea,
+    select {
       border: 1px solid #e0e0e0;
       padding: 10px 14px;
       font-size: 14px;
@@ -51,7 +54,9 @@
       outline: none;
       transition: border-color 0.3s;
 
-      &:focus { border-color: #2c2c2c; }
+      &:focus {
+        border-color: #2c2c2c;
+      }
     }
 
     textarea {
@@ -66,47 +71,51 @@
     gap: 16px;
     margin-bottom: 16px;
   }
-&__tallas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
 
-&__talla-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-
-  button {
-    width: 52px;
-    height: 48px;
-    border: 1px solid #ddd;
-    background: transparent;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-family: 'Montserrat', sans-serif;
+  &__tallas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
   }
 
-  &.seleccionada button {
-    background: #2c2c2c;
-    color: #fff;
-    border-color: #2c2c2c;
+  &__talla-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+
+    button {
+      width: 52px;
+      height: 48px;
+      border: 1px solid #ddd;
+      background: transparent;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    &.seleccionada button {
+      background: #2c2c2c;
+      color: #fff;
+      border-color: #2c2c2c;
+    }
+
+    input {
+      width: 52px;
+      border: 1px solid #e0e0e0;
+      padding: 4px 6px;
+      font-size: 12px;
+      text-align: center;
+      font-family: 'Montserrat', sans-serif;
+      outline: none;
+
+      &:focus {
+        border-color: #2c2c2c;
+      }
+    }
   }
 
-  input {
-    width: 52px;
-    border: 1px solid #e0e0e0;
-    padding: 4px 6px;
-    font-size: 12px;
-    text-align: center;
-    font-family: 'Montserrat', sans-serif;
-    outline: none;
-
-    &:focus { border-color: #2c2c2c; }
-  }
-}
   &__imagenes {
     display: flex;
     flex-wrap: wrap;
@@ -128,7 +137,7 @@
       position: absolute;
       top: 4px;
       right: 4px;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0, 0, 0, 0.6);
       color: #fff;
       border: none;
       width: 20px;
@@ -176,7 +185,9 @@
     font-size: 14px;
     cursor: pointer;
 
-    input { cursor: pointer; }
+    input {
+      cursor: pointer;
+    }
   }
 
   &__error {
@@ -193,7 +204,7 @@
 
 .admin-tabla {
   background: #fff;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 
   &__header {
     display: grid;
@@ -215,8 +226,13 @@
     font-size: 14px;
     transition: background 0.2s;
 
-    &:hover { background: #faf7f5; }
-    &:last-child { border-bottom: none; }
+    &:hover {
+      background: #faf7f5;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
   }
 
   &__nombre {
@@ -249,29 +265,46 @@
     gap: 8px;
 
     button {
-      background: none;
-      border: 1px solid #ddd;
-      padding: 6px 12px;
-      font-size: 12px;
+      border: none;
+      padding: 8px 12px;
+      font-size: 16px;
       cursor: pointer;
+      border-radius: 4px;
       transition: all 0.3s;
 
-      &:hover { border-color: #2c2c2c; }
+      &.editar {
+        background: #e8f0fe;
+        color: #1a73e8;
 
-      &.eliminar:hover {
-        border-color: #c0392b;
-        color: #c0392b;
+        &:hover {
+          background: #1a73e8;
+          color: #fff;
+        }
+      }
+
+      &.eliminar {
+        background: #fce4ec;
+        color: #c62828;
+
+        &:hover {
+          background: #c62828;
+          color: #fff;
+        }
       }
     }
   }
-}@media (max-width: 768px) {
+}
+
+@media (max-width: 768px) {
   .admin-section {
     &__header {
       flex-direction: column;
       align-items: flex-start;
       gap: 16px;
 
-      button { width: 100%; }
+      button {
+        width: 100%;
+      }
     }
   }
 
@@ -284,12 +317,17 @@
 
     &__acciones {
       flex-direction: column;
-      button { width: 100%; }
+
+      button {
+        width: 100%;
+      }
     }
   }
 
   .admin-tabla {
-    &__header { display: none; }
+    &__header {
+      display: none;
+    }
 
     &__fila {
       display: flex;
@@ -315,17 +353,35 @@
     }
 
     &__acciones {
-      margin-top: 8px;
-      display: flex;
+  display: flex;
+  gap: 8px;
 
-      button {
-        flex: 1;
-        padding: 10px;
-        text-align: center;
-      }
+  button {
+    border: none;
+    padding: 8px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s;
+
+    &.editar {
+      background: #e8f0fe;
+      color: #1a73e8;
+
+      &:hover { background: #1a73e8; color: #fff; }
+    }
+
+    &.eliminar {
+      background: #fce4ec;
+      color: #c62828;
+
+      &:hover { background: #c62828; color: #fff; }
     }
   }
 }
+  }
+}
+
 .admin-tabla {
   &__precio-oferta {
     color: #8b6f5e;

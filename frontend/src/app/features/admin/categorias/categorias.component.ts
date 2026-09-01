@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CategoriaService, Categoria } from '../../../core/services/categoria.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-categorias',
   standalone: true,
@@ -75,10 +75,32 @@ export class CategoriasComponent implements OnInit {
     });
   }
 
-  eliminar(id: string): void {
-    if (!confirm('¿Seguro que querés eliminar esta categoría?')) return;
-    this.categoriaService.eliminarCategoria(id).subscribe({
-      next: () => this.cargarCategorias()
-    });
-  }
+eliminar(id: string): void {
+  Swal.fire({
+    title: '¿Eliminar categoría?',
+    text: 'Esta acción no se puede deshacer.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#c62828',
+    cancelButtonColor: '#aaa',
+    confirmButtonText: 'Sí, eliminar',
+    cancelButtonText: 'Cancelar'
+  }).then(result => {
+    if (result.isConfirmed) {
+      this.categoriaService.eliminarCategoria(id).subscribe({
+        next: () => {
+          this.cargarCategorias();
+          Swal.fire({
+            title: 'Eliminada',
+            text: 'La categoría fue eliminada correctamente.',
+            icon: 'success',
+            confirmButtonColor: '#2c2c2c',
+            timer: 2000,
+            showConfirmButton: false
+          });
+        }
+      });
+    }
+  });
+}
 }
