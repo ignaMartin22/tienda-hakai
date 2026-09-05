@@ -14,6 +14,7 @@ require('dotenv').config();
 const app = express();
 app.use('/api/auth/login', loginLimiter);
 
+app.set('trust proxy', 1); // Para que funcione correctamente en Vercel
 // Middlewares
 app.use(cors());
 app.use(express.json());
