@@ -1,9 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const rateLimit = require('express-rate-limit');
+const loginLimiter = rateLimit({
+   windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 10, // máximo 10 intentos
+  message: { mensaje: 'Demasiados intentos, esperá 15 minutos' },
+  standardHeaders: true,
+  legacyHeaders: false
+})
 require('dotenv').config();
 
 const app = express();
+app.use('/api/auth/login', loginLimiter);
 
 // Middlewares
 app.use(cors());

@@ -7,7 +7,18 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const admin = await Admin.findOne({ email });
+    // Validar que sean strings
+    if (typeof email !== 'string' || typeof password !== 'string') {
+      return res.status(400).json({ mensaje: 'Credenciales inválidas' });
+    }
+
+    // Validar formato de email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ mensaje: 'Credenciales inválidas' });
+    }
+
+    const admin = await Admin.findOne({ email: email.toLowerCase().trim() });
     if (!admin) {
       return res.status(401).json({ mensaje: 'Credenciales inválidas' });
     }
