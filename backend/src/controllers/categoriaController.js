@@ -1,4 +1,5 @@
 const Categoria = require('../models/Categoria');
+const Producto = require('../models/Producto');
 
 // Generar slug automáticamente
 const generarSlug = (nombre) => {
@@ -74,6 +75,13 @@ const eliminarCategoria = async (req, res) => {
   try {
     const categoria = await Categoria.findByIdAndDelete(req.params.id);
     if (!categoria) return res.status(404).json({ mensaje: 'Categoría no encontrada' });
+
+    // Desasignar la categoría de todos los productos que la tenían
+    await Producto.updateMany(
+      { categoria: req.params.id },
+      { $unset: { categoria: '' } }
+    );
+
     res.json({ mensaje: 'Categoría eliminada' });
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al eliminar categoría' });
