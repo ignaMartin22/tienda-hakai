@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://hakai-backend.vercel.app/api'
+  apiUrl: 'https://tienda-hakai.onrender.com/api'
 };
