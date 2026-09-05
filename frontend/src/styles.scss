@@ -26,8 +26,12 @@ a {
 }
 
 button {
+button {
   cursor: pointer;
   font-family: 'Montserrat', sans-serif;
+  -webkit-appearance: none;
+  appearance: none;
+}
 }
 
 .container {

@@ -138,6 +138,8 @@
     letter-spacing: 1px;
     text-transform: uppercase;
     transition: all 0.3s;
+    -webkit-appearance: none;
+    appearance: none;
 
     &:hover, &.activo {
       background: #2c2c2c;
