@@ -50,6 +50,16 @@ export class CatalogoComponent implements OnInit, OnDestroy {
     }, 4000);
   }
 
+  menuAbierto = false;
+    irAProductos(): void {
+    this.menuAbierto = false;
+    const el = document.querySelector('.catalogo');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.location.href = '/';
+    }
+  }
   cargarCategorias(): void {
     this.categoriaService.getCategorias().subscribe({
       next: (cats) => this.categorias = cats,

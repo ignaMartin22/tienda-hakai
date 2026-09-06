@@ -192,23 +192,6 @@
   opacity: 0.4;
   pointer-events: none;
 }
-}
-
-
-.cargando {
-  text-align: center;
-  padding: 120px;
-  color: #aaa;
-}
-
-@media (max-width: 768px) {
-  .producto {
-    grid-template-columns: 1fr;
-    gap: 32px;
-    padding: 32px 16px;
-  }
-}
-
 &__toast {
   position: fixed;
   bottom: 24px;
@@ -244,3 +227,21 @@
     opacity: 1;
   }
 }
+}
+
+
+.cargando {
+  text-align: center;
+  padding: 120px;
+  color: #aaa;
+}
+
+@media (max-width: 768px) {
+  .producto {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 32px 16px;
+  }
+}
+
+
