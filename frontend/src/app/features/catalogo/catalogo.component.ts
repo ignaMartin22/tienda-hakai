@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ProductoService, Producto } from '../../core/services/producto.service';
 import { CategoriaService, Categoria } from '../../core/services/categoria.service';
@@ -10,7 +10,7 @@ import { CategoriaService, Categoria } from '../../core/services/categoria.servi
   templateUrl: './catalogo.component.html',
   styleUrl: './catalogo.component.scss'
 })
-export class CatalogoComponent implements OnInit {
+export class CatalogoComponent implements OnInit, OnDestroy {
   private productoService = inject(ProductoService);
   private categoriaService = inject(CategoriaService);
 
@@ -23,31 +23,31 @@ export class CatalogoComponent implements OnInit {
   pagina = 1;
   totalPaginas = 1;
   enOferta = false;
+  imagenActiva = 0;
+  private sliderInterval: any;
+
   imagenes = [
     'https://res.cloudinary.com/do8lcskoq/image/upload/v1787953710/hero_hey_men.webp',
     'https://res.cloudinary.com/do8lcskoq/image/upload/v1787954145/hero_slide2.webp',
     'https://res.cloudinary.com/do8lcskoq/image/upload/v1787954146/hero_slide3.webp'
-  ]
-
-  imagenActiva = 0;
-  ofertaActiva = 0;
+  ];
 
   ngOnInit(): void {
     this.cargarCategorias();
     this.cargarDestacados();
     this.cargarProductos();
+    this.iniciarSlider();
   }
 
-  menuAbierto = false;
+  ngOnDestroy(): void {
+    if (this.sliderInterval) clearInterval(this.sliderInterval);
+  }
 
-  irAProductos(): void {
-    this.menuAbierto = false;
-    const el = document.querySelector('.catalogo');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.location.href = '/';
-    }
+  iniciarSlider(): void {
+    if (this.imagenes.length <= 1) return;
+    this.sliderInterval = setInterval(() => {
+      this.imagenActiva = (this.imagenActiva + 1) % this.imagenes.length;
+    }, 4000);
   }
 
   cargarCategorias(): void {
@@ -64,47 +64,46 @@ export class CatalogoComponent implements OnInit {
     });
   }
 
+  cargarProductosConFiltro(): void {
+    this.cargando = true;
+    this.productoService.getProductos({
+      categoria: this.categoriaActiva || undefined,
+      enOferta: this.enOferta || undefined,
+      page: this.pagina,
+      limit: 12
+    }).subscribe({
+      next: (res) => {
+        this.productos = res.productos;
+        this.totalPaginas = res.totalPaginas;
+        this.pagina = res.pagina;
+        this.cargando = false;
+      },
+      error: () => this.cargando = false
+    });
+  }
 
-cargarProductosConFiltro(): void {
-  this.cargando = true;
-  this.productoService.getProductos({
-    categoria: this.categoriaActiva || undefined,
-    enOferta: this.enOferta || undefined,
-    page: this.pagina,
-    limit: 12
-  }).subscribe({
-    next: (res) => {
-      this.productos = res.productos;
-      this.totalPaginas = res.totalPaginas;
-      this.pagina = res.pagina;
-      this.cargando = false;
-    },
-    error: () => this.cargando = false
-  });
-}
+  cargarProductos(categoriaId?: string, pagina = 1): void {
+    this.pagina = pagina;
+    this.cargarProductosConFiltro();
+  }
 
-cargarProductos(categoriaId?: string, pagina = 1): void {
-  this.pagina = pagina;
-  this.cargarProductosConFiltro();
-}
+  filtrarPorCategoria(categoriaId: string): void {
+    this.categoriaActiva = categoriaId;
+    this.enOferta = false;
+    this.pagina = 1;
+    this.cargarProductosConFiltro();
+  }
 
- filtrarPorCategoria(categoriaId: string): void {
-  this.categoriaActiva = categoriaId;
-  this.enOferta = false;
-  this.pagina = 1;
-  this.cargarProductosConFiltro();
-}
+  filtrarOfertas(): void {
+    this.categoriaActiva = '';
+    this.enOferta = true;
+    this.pagina = 1;
+    this.cargarProductosConFiltro();
+  }
 
   cambiarPagina(pagina: number): void {
     this.pagina = pagina;
     this.cargarProductos(this.categoriaActiva || undefined, pagina);
     document.querySelector('.catalogo')?.scrollIntoView({ behavior: 'smooth' });
   }
-
-  filtrarOfertas(): void {
-  this.categoriaActiva = '';
-  this.enOferta = true;
-  this.pagina = 1;
-  this.cargarProductosConFiltro();
-}
 }
