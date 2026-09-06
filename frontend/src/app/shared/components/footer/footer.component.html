@@ -6,11 +6,10 @@
     </div>
 
     <div class="footer__links">
-      <span class="footer__links-titulo">Información</span>
-      <a routerLink="/quienes-somos">Quiénes somos</a>
-      <a routerLink="/como-comprar">Cómo comprar</a>
-      <a routerLink="/politica-devoluciones">Política de devoluciones</a>
-      <a routerLink="/contacto">Contacto</a>
+<a (click)="navegar('/quienes-somos')" style="cursor:pointer">Quiénes somos</a>
+<a (click)="navegar('/como-comprar')" style="cursor:pointer">Cómo comprar</a>
+<a (click)="navegar('/politica-devoluciones')" style="cursor:pointer">Política de devoluciones</a>
+<a (click)="navegar('/contacto')" style="cursor:pointer">Contacto</a>
     </div>
 
     <div class="footer__social">
