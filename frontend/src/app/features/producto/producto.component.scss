@@ -209,4 +209,38 @@
   }
 }
 
+&__toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #2c2c2c;
+  color: #fff;
+  padding: 14px 20px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 999;
+  animation: slideIn 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 
+  a {
+    color: #d4a574;
+    text-decoration: none;
+    font-weight: 600;
+    white-space: nowrap;
+
+    &:hover { color: #fff; }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
